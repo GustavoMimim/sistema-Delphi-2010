@@ -43,12 +43,20 @@
 			<DelphiCompile Include="testeNewcon.dpr">
 				<MainSource>MainSource</MainSource>
 			</DelphiCompile>
-			<DCCReference Include="..\..\Documents\RAD Studio\Projects\Unit1.pas">
+			<DCCReference Include="frmMain.pas">
 				<Form>Form1</Form>
 			</DCCReference>
-			<DCCReference Include="frmMain.pas">
+			<DCCReference Include="frmCity.pas">
 				<Form>Form2</Form>
 			</DCCReference>
+			<None Include="ModelSupport_testeNewcon\default.txaPackage"/>
+			<None Include="ModelSupport_testeNewcon\default.txvpck"/>
+			<None Include="ModelSupport_testeNewcon\frmMain\default.txvpck"/>
+			<None Include="ModelSupport_testeNewcon\testeNewcon\default.txvpck"/>
+			<None Include="ModelSupport_testeNewcon\frmMain\default.txaPackage"/>
+			<None Include="ModelSupport_testeNewcon\frmCity\default.txvpck"/>
+			<None Include="ModelSupport_testeNewcon\frmCity\default.txaPackage"/>
+			<None Include="ModelSupport_testeNewcon\module\default.txaPackage"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
@@ -103,6 +111,7 @@
 						<Source Name="MainSource">testeNewcon.dpr</Source>
 					</Source>
 				</Delphi.Personality>
+				<ModelSupport>True</ModelSupport>
 			</BorlandProject>
 			<ProjectFileVersion>12</ProjectFileVersion>
 		</ProjectExtensions>

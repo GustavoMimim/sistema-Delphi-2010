@@ -1,0 +1,109 @@
+unit frmCity;
+
+interface
+
+uses
+  module, Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls;
+
+type
+  TForm2 = class(TForm)
+    Panel1: TPanel;
+    Label5: TLabel;
+    Label4: TLabel;
+    Label2: TLabel;
+    Label1: TLabel;
+    Label3: TLabel;
+    txtPostCodeEnd: TEdit;
+    txtPostCodeStart: TEdit;
+    btnSave: TButton;
+    btnRemove: TButton;
+    txtCode: TEdit;
+    txtState: TComboBox;
+    txtName: TEdit;
+    procedure btnSaveClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    function validates(): boolean;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    newRecord: Boolean;
+  end;
+
+var
+  Form2: TForm2;
+  dt: TDm;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm2.btnSaveClick(Sender: TObject);
+begin
+
+  validates();
+
+  dt.sqlCity.Close;
+  dt.sqlCity.SQL.Clear;
+  dt.sqlCity.SQL.Add('INSERT INTO cidades (codigo_cidade, nome, estado, cep_inicial, cep_final) VALUES ('+
+          QuotedStr(txtCode.Text)+ ', ' + QuotedStr(txtName.Text) + ', ' + QuotedStr(txtState.Text) + ', ' + QuotedStr(txtPostCodeStart.Text) + ',' + QuotedStr(txtPostCodeEnd.Text) + ')' );
+  dt.sqlCity.ExecSQL();
+
+end;
+
+function TForm2.validates(): boolean;
+begin
+
+  if Length(txtCode.Text) = 0 then
+  begin
+    ShowMessage('Por favor, preencha o código da cidade para continuar!');
+    validates := false;
+    exit;
+  end
+  else
+    if newRecord then
+    begin
+      dt.sqlCity.SQL.Add('SELECT COUNT(*) AS qtd FROM cidades WHERE codigo_cidade = ' + QuotedStr(txtCode.Text));
+      dt.sqlCity.Open;
+
+      if dt.sqlCity.FieldByName('qtd').Value > 0  then
+      begin
+        ShowMessage('O código da cidade deve ser único!');
+        validates := false;
+        exit;
+      end;
+
+    end;
+
+  if Length(txtName.Text) = 0 then
+  begin
+    ShowMessage('Por favor, preencha o nome da cidade para continuar!');
+    validates := false;
+  end;
+
+  if Length(txtName.Text) = 0 then
+  begin
+    validates := false;
+  end;
+
+  if Length(txtName.Text) = 0 then
+  begin
+    validates := false;
+  end;
+
+  if Length(txtName.Text) = 0 then
+  begin
+    validates := false;
+  end;
+
+end;
+
+procedure TForm2.FormCreate(Sender: TObject);
+begin
+
+  dt := TDm.Create(Self);
+
+end;
+
+end.

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
-  <Transactions>
+	<Transactions>
     <Transaction>2020/09/26 09:52:54.089.pas,C:\Users\Público\Documents\RAD Studio\Projects\frmMain.pas=</Transaction>
     <Transaction>2020/09/26 09:52:54.089.dfm,C:\Users\Público\Documents\RAD Studio\Projects\frmMain.dfm=</Transaction>
     <Transaction>2020/09/26 09:53:11.329.dproj,C:\Users\Público\Documents\RAD Studio\Projects\Project1.dproj=C:\Users\Público\Documents\RAD Studio\Projects\Project1.dproj</Transaction>
@@ -12,5 +12,13 @@
     <Transaction>2020/09/26 10:06:04.882.dfm,C:\Users\Público\Documents\RAD Studio\Projects\Unit2.dfm=C:\Users\Público\Desktop\test Newcon\frmMain.dfm</Transaction>
     <Transaction>2020/09/26 10:06:20.076.dproj,C:\Users\Público\Documents\RAD Studio\Projects\Project1.dproj=C:\Users\Público\Documents\RAD Studio\Projects\testeNewcon.dproj</Transaction>
     <Transaction>2020/09/26 10:07:03.050.dproj,C:\Users\Público\Documents\RAD Studio\Projects\testeNewcon.dproj=C:\Users\Público\Desktop\test Newcon\testeNewcon.dproj</Transaction>
+    <Transaction>2020/09/26 12:25:34.950.pas,C:\Users\Público\Documents\RAD Studio\Projects\Unit1.pas=</Transaction>
+    <Transaction>2020/09/26 12:25:34.950.dfm,C:\Users\Público\Documents\RAD Studio\Projects\Unit1.dfm=</Transaction>
+    <Transaction>2020/09/26 12:25:39.895.pas,C:\Users\Público\Desktop\test Newcon\frmMain.pas=</Transaction>
+    <Transaction>2020/09/26 12:25:39.895.dfm,C:\Users\Público\Desktop\test Newcon\frmMain.dfm=</Transaction>
+    <Transaction>2020/09/26 15:41:38.571.pas,C:\Users\Público\Desktop\test Newcon\Unit1.pas=C:\Users\Público\Desktop\test Newcon\module.pas</Transaction>
+    <Transaction>2020/09/26 15:41:38.571.dfm,C:\Users\Público\Desktop\test Newcon\Unit1.dfm=C:\Users\Público\Desktop\test Newcon\module.dfm</Transaction>
+    <Transaction>2020/09/26 16:08:56.929.pas,C:\Users\Público\Desktop\test Newcon\module.pas=</Transaction>
+    <Transaction>2020/09/26 16:08:56.929.dfm,C:\Users\Público\Desktop\test Newcon\module.dfm=</Transaction>
   </Transactions>
 </BorlandProject>

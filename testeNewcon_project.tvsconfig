@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<TgConfig Version="3" SubLevelDisabled="False">
+  <Option Name="namespaceFolder.frmMain" Type="System.String" Value="frmMain" Category="General" IsBrowsable="False" />
+  <Option Name="namespaceFolder.frmCity" Type="System.String" Value="frmCity" Category="General" IsBrowsable="False" />
+</TgConfig>

@@ -1,64 +1,94 @@
 object Form1: TForm1
   Left = 0
   Top = 0
-  Caption = 'Form1'
+  Caption = 'Sistema'
   ClientHeight = 299
-  ClientWidth = 635
+  ClientWidth = 672
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  FormStyle = fsMDIForm
   OldCreateOrder = False
+  Position = poScreenCenter
   Visible = True
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object header: TPanel
     Left = 0
     Top = 0
-    Width = 635
-    Height = 41
+    Width = 672
+    Height = 36
     Align = alTop
     BevelKind = bkTile
     BevelOuter = bvNone
     Color = 15395562
     ParentBackground = False
     TabOrder = 0
-    object Button1: TButton
-      Left = 384
-      Top = 8
-      Width = 75
-      Height = 25
-      Caption = 'Adicionar'
+    object Panel2: TPanel
+      AlignWithMargins = True
+      Left = 429
+      Top = 3
+      Width = 236
+      Height = 26
+      Align = alRight
+      BevelOuter = bvNone
+      Color = 15395562
+      ParentBackground = False
       TabOrder = 0
-    end
-    object Button2: TButton
-      Left = 465
-      Top = 8
-      Width = 75
-      Height = 25
-      Caption = 'Alterar'
-      TabOrder = 1
-    end
-    object Button3: TButton
-      Left = 546
-      Top = 8
-      Width = 75
-      Height = 25
-      Caption = 'Remover'
-      TabOrder = 2
+      object btnUpdate: TButton
+        Left = 161
+        Top = 0
+        Width = 75
+        Height = 26
+        Align = alRight
+        Caption = 'Detalhes'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 0
+        OnClick = btnUpdateClick
+        ExplicitLeft = 86
+      end
+      object btnAdd: TButton
+        Left = 86
+        Top = 0
+        Width = 75
+        Height = 26
+        Align = alRight
+        Caption = 'Adicionar'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 1
+        OnClick = btnAddClick
+        ExplicitLeft = 11
+      end
     end
   end
   object sideMenu: TTreeView
     Left = 0
-    Top = 41
+    Top = 36
     Width = 121
-    Height = 258
+    Height = 263
     Align = alLeft
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Arial'
+    Font.Style = []
     Indent = 19
+    ParentFont = False
     TabOrder = 1
-    OnClick = sideMenuClick
     Items.NodeData = {
       03030000002C0000000000000000000000FFFFFFFFFFFFFFFF00000000000000
       0000000000010743006900640061006400650073002E00000000000000010000
@@ -68,79 +98,100 @@ object Form1: TForm1
   end
   object mainBody: TPanel
     Left = 121
-    Top = 41
-    Width = 514
-    Height = 258
+    Top = 36
+    Width = 551
+    Height = 263
     Align = alClient
     TabOrder = 2
-  end
-  object tabPages: TPageControl
-    Left = 121
-    Top = 41
-    Width = 514
-    Height = 258
-    ActivePage = Cidades
-    TabOrder = 3
-    object Cidades: TTabSheet
-      Caption = 'Cidades'
-      object ListView1: TListView
-        Left = 0
-        Top = 49
-        Width = 506
-        Height = 181
-        Align = alClient
-        Columns = <>
-        GridLines = True
-        TabOrder = 0
-        ViewStyle = vsReport
-      end
-      object Panel1: TPanel
-        Left = 0
-        Top = 0
-        Width = 506
-        Height = 49
+    object Panel1: TPanel
+      Left = 1
+      Top = 1
+      Width = 549
+      Height = 52
+      Align = alTop
+      BevelOuter = bvNone
+      Color = 15395562
+      ParentBackground = False
+      TabOrder = 0
+      object Label1: TLabel
+        AlignWithMargins = True
+        Left = 5
+        Top = 3
+        Width = 539
+        Height = 16
+        Margins.Left = 5
+        Margins.Right = 5
         Align = alTop
-        BevelOuter = bvNone
-        Color = 15395562
-        ParentBackground = False
-        TabOrder = 1
-        object Label1: TLabel
-          Left = 3
-          Top = 3
-          Width = 46
-          Height = 13
-          Caption = 'Pesquisar'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -11
-          Font.Name = 'Tahoma'
-          Font.Style = []
-          ParentFont = False
-        end
-        object Edit1: TEdit
-          Left = 0
-          Top = 20
-          Width = 505
-          Height = 21
-          TabOrder = 0
-        end
+        Caption = 'Pesquisar'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
+        ExplicitWidth = 58
+      end
+      object Edit1: TEdit
+        AlignWithMargins = True
+        Left = 5
+        Top = 25
+        Width = 539
+        Height = 24
+        Margins.Left = 5
+        Margins.Right = 5
+        Align = alClient
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 0
       end
     end
-    object TabSheet1: TTabSheet
-      Caption = 'Clientes'
-      ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
-    end
-    object TabSheet2: TTabSheet
-      Caption = 'Relat'#243'rios'
-      ImageIndex = 2
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+    object lvRecords: TListView
+      AlignWithMargins = True
+      Left = 6
+      Top = 58
+      Width = 539
+      Height = 199
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
+      Align = alClient
+      BevelInner = bvNone
+      BevelOuter = bvNone
+      Columns = <
+        item
+          Caption = 'C'#243'digo'
+          Width = 80
+        end
+        item
+          Caption = 'Nome'
+          Width = 160
+        end
+        item
+          Caption = 'UF'
+          Width = 120
+        end
+        item
+          Caption = 'Faixa de Cep'
+          Width = 150
+        end>
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Arial'
+      Font.Style = []
+      FlatScrollBars = True
+      GridLines = True
+      HideSelection = False
+      IconOptions.WrapText = False
+      RowSelect = True
+      ParentFont = False
+      TabOrder = 1
+      ViewStyle = vsReport
     end
   end
 end

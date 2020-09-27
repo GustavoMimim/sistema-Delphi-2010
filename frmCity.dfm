@@ -1,9 +1,10 @@
 object Form2: TForm2
   Left = 0
   Top = 0
-  Caption = 'Form2'
-  ClientHeight = 304
-  ClientWidth = 345
+  BorderStyle = bsDialog
+  Caption = 'Cidade'
+  ClientHeight = 327
+  ClientWidth = 210
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,147 +12,147 @@ object Form2: TForm2
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  Position = poScreenCenter
+  Visible = True
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
-    Left = 0
-    Top = 0
-    Width = 345
-    Height = 304
+    AlignWithMargins = True
+    Left = 3
+    Top = 3
+    Width = 204
+    Height = 321
     Align = alClient
-    BevelKind = bkSoft
-    BevelOuter = bvSpace
+    BevelKind = bkTile
+    BevelOuter = bvNone
     Color = 15724527
     ParentBackground = False
     TabOrder = 0
-    object Label5: TLabel
-      Left = 24
-      Top = 247
-      Width = 44
-      Height = 13
-      Caption = 'Cep Final'
-    end
+    ExplicitLeft = -2
+    ExplicitTop = 8
+    ExplicitWidth = 344
+    ExplicitHeight = 376
     object Label4: TLabel
-      Left = 24
-      Top = 191
-      Width = 49
+      Left = 8
+      Top = 183
+      Width = 63
       Height = 13
-      Caption = 'Cep Inicial'
+      Caption = 'Faixa de Cep'
     end
     object Label2: TLabel
-      Left = 24
+      Left = 8
       Top = 64
-      Width = 27
+      Width = 72
       Height = 13
       Caption = 'Nome'
     end
     object Label1: TLabel
-      Left = 24
+      Left = 8
       Top = 8
-      Width = 33
+      Width = 78
       Height = 13
       Caption = 'C'#243'digo'
     end
     object Label3: TLabel
-      Left = 24
-      Top = 127
-      Width = 33
+      Left = 8
+      Top = 123
+      Width = 78
       Height = 13
       Caption = 'Estado'
     end
-    object Edit5: TEdit
-      Left = 24
-      Top = 266
-      Width = 137
+    object txtPostCodeEnd: TEdit
+      Left = 8
+      Top = 229
+      Width = 182
       Height = 21
       TabOrder = 0
-      Text = 'Edit1'
     end
-    object Edit4: TEdit
-      Left = 24
-      Top = 210
-      Width = 137
+    object txtPostCodeStart: TEdit
+      Left = 8
+      Top = 202
+      Width = 182
       Height = 21
       TabOrder = 1
-      Text = 'Edit1'
     end
-    object Button3: TButton
-      Left = 209
-      Top = 200
-      Width = 75
-      Height = 25
-      Caption = 'Adicionar'
+    object txtCode: TEdit
+      Left = 8
+      Top = 27
+      Width = 182
+      Height = 21
       TabOrder = 2
     end
-    object Button1: TButton
-      Left = 209
-      Top = 231
-      Width = 75
-      Height = 25
-      Caption = 'Alterar'
-      TabOrder = 3
-    end
-    object Button2: TButton
-      Left = 209
-      Top = 262
-      Width = 75
-      Height = 25
-      Caption = 'Remover'
-      TabOrder = 4
-    end
-    object Edit1: TEdit
-      Left = 24
-      Top = 27
-      Width = 137
-      Height = 21
-      TabOrder = 5
-      Text = 'Edit1'
-    end
-    object ComboBox1: TComboBox
-      Left = 24
-      Top = 146
-      Width = 137
+    object cbState: TComboBox
+      Left = 8
+      Top = 142
+      Width = 182
       Height = 21
       BevelInner = bvNone
       BevelOuter = bvNone
       Style = csDropDownList
-      TabOrder = 6
+      TabOrder = 3
       Items.Strings = (
-        'Acre (AC)'
-        'Alagoas (AL)'
-        'Amap'#225' (AP)'
-        'Amazonas (AM)'
-        'Bahia (BA)'
-        'Cear'#225' (CE)'
-        'Esp'#237'rito Santo (ES)'
-        'Goi'#225's (GO)'
-        'Maranh'#227'o (MA)'
-        'Mato Grosso (MT)'
-        'Mato Grosso do Sul (MS)'
-        'Minas Gerais (MG)'
-        'Par'#225' (PA)'
-        'Para'#237'ba (PB)'
-        'Paran'#225' (PR)'
-        'Pernambuco (PE)'
-        'Piau'#237' (PI)'
-        'Rio de Janeiro (RJ)'
-        'Rio Grande do Norte (RN)'
-        'Rio Grande do Sul (RS)'
-        'Rond'#244'nia (RO)'
-        'Roraima (RR)'
-        'Santa Catarina (SC)'
-        'S'#227'o Paulo (SP)'
-        'Sergipe (SE)'
-        'Tocantins (TO)'
-        'Distrito Federal (DF)')
+        'Acre'
+        'Alagoas'
+        'Amap'#225
+        'Amazonas'
+        'Bahia'
+        'Cear'#225
+        'Esp'#237'rito Santo'
+        'Goi'#225's'
+        'Maranh'#227'o'
+        'Mato Grosso'
+        'Mato Grosso do Sul'
+        'Minas Gerais'
+        'Par'#225
+        'Para'#237'ba'
+        'Paran'#225
+        'Pernambuco'
+        'Piau'#237
+        'Rio de Janeiro'
+        'Rio Grande do Norte'
+        'Rio Grande do Sul'
+        'Rond'#244'nia'
+        'Roraima'
+        'Santa Catarina'
+        'S'#227'o Paulo'
+        'Sergipe'
+        'Tocantins'
+        'Distrito Federal')
     end
-    object Edit2: TEdit
-      Left = 24
+    object txtName: TEdit
+      Left = 8
       Top = 83
-      Width = 137
+      Width = 182
       Height = 21
-      TabOrder = 7
-      Text = 'Edit1'
+      TabOrder = 4
+    end
+    object Panel2: TPanel
+      Left = 0
+      Top = 256
+      Width = 200
+      Height = 61
+      Align = alBottom
+      BevelOuter = bvNone
+      TabOrder = 5
+      ExplicitTop = 272
+      object btnSave: TButton
+        Left = 8
+        Top = 16
+        Width = 85
+        Height = 25
+        Caption = 'Salvar'
+        TabOrder = 0
+        OnClick = btnSaveClick
+      end
+      object btnRemove: TButton
+        Left = 105
+        Top = 16
+        Width = 85
+        Height = 25
+        Caption = 'Remover'
+        TabOrder = 1
+      end
     end
   end
 end
