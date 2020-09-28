@@ -144,7 +144,7 @@ begin
 
   dt.sqlCity.Close;
   dt.sqlCity.SQL.Clear;
-  dt.sqlCity.SQL.Add('SELECT clientes.*, cidades.codigo_cidade AS codigocidade, cidades.nome AS cidade, cidades.estado FROM clientes LEFT JOIN cidades ON cidades.codigo_cidade = clientes.codigo_cidade WHERE codigo_cliente = ' + QuotedStr(codigo));
+  dt.sqlCity.SQL.Add('SELECT clientes.*, cidades.nome AS cidade, cidades.estado FROM clientes LEFT JOIN cidades ON cidades.codigo_cidade = clientes.codigo_cidade WHERE codigo_cliente = ' + QuotedStr(codigo));
   dt.sqlCity.Open;
 
   if dt.sqlCity.Eof then
@@ -155,7 +155,7 @@ begin
   end
   else
   begin
-    txtCode.Text := dt.sqlCity.FieldByName('codigo_cliente').Value;
+    txtCode.Text := dt.sqlCity.FieldByName('codigo_cidade').Value;
     txtName.Text := dt.sqlCity.FieldByName('nome').Value;
     txtCpf.Text := dt.sqlCity.FieldByName('CGC_CPF_Cliente').Value;
     txtTel.Text := dt.sqlCity.FieldByName('telefone').Value;
@@ -167,12 +167,9 @@ begin
     txtAddress.Text := dt.sqlCity.FieldByName('endereco').Value;
     txtComplement.Text := dt.sqlCity.FieldByName('complemento').Value;
 
-    codCity := dt.sqlCity.FieldByName('codigocidade').Value;
-
   end;
 
   isLoading:=false;
-
 end;
 
 procedure TForm3.FormCreate(Sender: TObject);

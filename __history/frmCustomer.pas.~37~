@@ -52,7 +52,6 @@ var
   Form3: TForm3;
   dt: TDm;
   codCity: string;
-  isLoading: boolean;
 
 implementation
 
@@ -122,17 +121,13 @@ begin
     else
       dt.sqlCity.SQL.Add('UPDATE clientes SET nome = ' + QuotedStr(txtName.Text) + ', CGC_CPF_Cliente = ' + QuotedStr(txtCpf.Text) +
       ', Telefone = ' + QuotedStr(txtTel.Text) + ', Endereco = ' + QuotedStr(txtAddress.Text) + ', Bairro = ' + QuotedStr(txtDistrict.Text) + ', Complemento = ' + QuotedStr(txtComplement.Text) +
-      ', E_mail = ' + QuotedStr(txtEmail.Text) + ', codigo_cidade = ' + QuotedStr(codCity) + ', cep = ' + QuotedStr(txtPostCode.Text) + ' WHERE codigo_cliente = ' + QuotedStr(txtCode.Text));
+      'E_mail = ' + QuotedStr(txtEmail.Text) + ', codigo_cidade = ' + QuotedStr(codCity) + ', cep = ' + QuotedStr(txtPostCode.Text) + ', WHERE codigo_cliente = ' + QuotedStr(txtCode.Text));
 
     dt.sqlCity.ExecSQL();
 
   finally
 
-    if newRecord then
-      ShowMessage('Cliente cadastrado com sucesso!')
-    else
-      ShowMessage('Cliente alterado com sucesso!');
-
+    ShowMessage('Cliente cadastrado com sucesso!');
     Form3.Free;
 
   end;
@@ -140,11 +135,10 @@ end;
 
 procedure TForm3.loadCustomer(codigo: String);
 begin
-  isLoading:=true;
 
   dt.sqlCity.Close;
   dt.sqlCity.SQL.Clear;
-  dt.sqlCity.SQL.Add('SELECT clientes.*, cidades.codigo_cidade AS codigocidade, cidades.nome AS cidade, cidades.estado FROM clientes LEFT JOIN cidades ON cidades.codigo_cidade = clientes.codigo_cidade WHERE codigo_cliente = ' + QuotedStr(codigo));
+  dt.sqlCity.SQL.Add('SELECT clientes.*, cidades.nome AS cidade FROM clientes LEFT JOIN cidades ON cidades.codigo_cidade = clientes.codigo_cidade WHERE codigo_cliente = ' + QuotedStr(codigo));
   dt.sqlCity.Open;
 
   if dt.sqlCity.Eof then
@@ -155,7 +149,7 @@ begin
   end
   else
   begin
-    txtCode.Text := dt.sqlCity.FieldByName('codigo_cliente').Value;
+    txtCode.Text := dt.sqlCity.FieldByName('codigo_cidade').Value;
     txtName.Text := dt.sqlCity.FieldByName('nome').Value;
     txtCpf.Text := dt.sqlCity.FieldByName('CGC_CPF_Cliente').Value;
     txtTel.Text := dt.sqlCity.FieldByName('telefone').Value;
@@ -167,11 +161,7 @@ begin
     txtAddress.Text := dt.sqlCity.FieldByName('endereco').Value;
     txtComplement.Text := dt.sqlCity.FieldByName('complemento').Value;
 
-    codCity := dt.sqlCity.FieldByName('codigocidade').Value;
-
   end;
-
-  isLoading:=false;
 
 end;
 
@@ -186,16 +176,11 @@ procedure TForm3.FormShow(Sender: TObject);
 begin
 
   txtCode.SetFocus;
-  if not newRecord then
-    txtCode.Enabled := false;
 
 end;
 
 procedure TForm3.txtPostCodeChange(Sender: TObject);
 begin
-
-  if isLoading then
-    exit;
 
   if Length(txtPostCode.Text) = 8 then
   begin

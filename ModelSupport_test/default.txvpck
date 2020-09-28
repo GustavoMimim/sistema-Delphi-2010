@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nodeSet version="1.0">
+  <view uin="3b013o56o3vkfq9h_v">
+    <property name="$defaultDiagram" value="true" />
+    <property name="$metaclass" value="Package Diagram" />
+    <property name="$name" value="default" />
+    <reference referencedUin="design:view:::wegelpeu3cfkv5js_v">
+      <property name="$shortcutReference" value="true" />
+      <property name="bounds" value="10,10,100,151" />
+      <reference referencedUin="delphi:e_class:src:test:frmMain.TForm1" />
+      <reference referencedUin="delphi:e_class:src:test:frmMain.@unitclass" />
+    </reference>
+    <reference referencedUin="uml:package:test:src:testeNewcon">
+      <property name="$shortcutReference" value="true" />
+      <property name="bounds" value="129,1,127,134" />
+      <reference referencedUin="delphi:e_class:src:test:testeNewcon.@unitclass" />
+    </reference>
+    <reference referencedUin="design:view:::0yvxofx0yh2p3bbst_v">
+      <property name="$shortcutReference" value="true" />
+      <property name="bounds" value="129,154,96,151" />
+      <reference referencedUin="delphi:e_class:src:test:frmCity.TForm2" />
+      <reference referencedUin="delphi:e_class:src:test:frmCity.@unitclass" />
+    </reference>
+  </view>
+</nodeSet>

@@ -28,6 +28,10 @@ object Form3: TForm3
     Color = 15724527
     ParentBackground = False
     TabOrder = 0
+    ExplicitLeft = -8
+    ExplicitTop = -8
+    ExplicitWidth = 645
+    ExplicitHeight = 309
     object Label2: TLabel
       Left = 8
       Top = 64
@@ -85,6 +89,8 @@ object Form3: TForm3
       Align = alBottom
       BevelOuter = bvNone
       TabOrder = 6
+      ExplicitTop = 240
+      ExplicitWidth = 641
       object btnSave: TButton
         Left = 8
         Top = 8
@@ -180,7 +186,6 @@ object Form3: TForm3
         Top = 73
         Width = 182
         Height = 21
-        Enabled = False
         MaxLength = 8
         TabOrder = 1
       end
@@ -189,6 +194,7 @@ object Form3: TForm3
         Top = 213
         Width = 182
         Height = 21
+        MaxLength = 8
         TabOrder = 4
       end
       object txtComplement: TEdit
@@ -196,6 +202,7 @@ object Form3: TForm3
         Top = 261
         Width = 182
         Height = 21
+        MaxLength = 8
         TabOrder = 5
       end
       object txtPostCode: TEdit
@@ -203,6 +210,7 @@ object Form3: TForm3
         Top = 24
         Width = 182
         Height = 21
+        Enabled = False
         MaxLength = 8
         NumbersOnly = True
         TabOrder = 0
@@ -252,6 +260,7 @@ object Form3: TForm3
         Top = 167
         Width = 182
         Height = 21
+        MaxLength = 8
         TabOrder = 3
       end
     end

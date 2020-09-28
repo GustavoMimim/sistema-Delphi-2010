@@ -214,4 +214,20 @@ object Form1: TForm1
       ViewStyle = vsReport
     end
   end
+  object btnRefresh: TButton
+    Left = 8
+    Top = 264
+    Width = 103
+    Height = 27
+    Align = alCustom
+    Caption = 'Atualizar Lista'
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Arial'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 3
+    OnClick = btnRefreshClick
+  end
 end

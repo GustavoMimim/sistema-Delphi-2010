@@ -19,6 +19,7 @@ type
     btnUpdate: TButton;
     btnAdd: TButton;
     Label1: TLabel;
+    btnRefresh: TButton;
     procedure FormCreate(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
     procedure btnUpdateClick(Sender: TObject);
@@ -26,6 +27,7 @@ type
     procedure ListCities();
     procedure ListCustomers();
     procedure txtSearchChange(Sender: TObject);
+    procedure btnRefreshClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -61,7 +63,6 @@ begin
     Form3.Show;
   end;
 
-
 end;
 
 procedure TForm1.btnUpdateClick(Sender: TObject);
@@ -73,9 +74,25 @@ begin
     exit;
   end;
 
-  Application.CreateForm(TForm2, Form2);
-  Form2.loadCity(lvRecords.Selected.Caption);
-  Form2.Show;
+  if typeSelected = 'Cidades' then
+  begin
+
+    Application.CreateForm(TForm2, Form2);
+    Form2.loadCity(lvRecords.Selected.Caption);
+    Form2.Show;
+  end
+  else
+  begin
+    Application.CreateForm(TForm3, Form3);
+    Form3.loadCustomer(lvRecords.Selected.Caption);
+    Form3.Show;
+  end;
+end;
+
+procedure TForm1.btnRefreshClick(Sender: TObject);
+begin
+
+  directsTypeList(); 
 
 end;
 
@@ -120,7 +137,7 @@ begin
 
   dt.sqlCity.SQL.Clear;
 
-  dt.sqlCity.SQL.Add('SELECT codigo_cliente, clientes.nome, telefone, cidades.nome AS cidade from clientes LEFT JOIN cidades ON cidades.codigo_cidade = clientes.codigo_cliente');
+  dt.sqlCity.SQL.Add('SELECT codigo_cliente, clientes.nome, telefone, cidades.nome AS cidade from clientes LEFT JOIN cidades ON cidades.codigo_cidade = clientes.codigo_cidade');
 
   dt.sqlCity.Open;
 

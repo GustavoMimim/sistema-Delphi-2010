@@ -167,7 +167,7 @@ begin
     txtAddress.Text := dt.sqlCity.FieldByName('endereco').Value;
     txtComplement.Text := dt.sqlCity.FieldByName('complemento').Value;
 
-    codCity := dt.sqlCity.FieldByName('codigocidade').Value;
+    codCity := codigocidade;
 
   end;
 

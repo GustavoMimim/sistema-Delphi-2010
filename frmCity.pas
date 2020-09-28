@@ -114,7 +114,11 @@ begin
 
   finally
 
-    ShowMessage('Cidade cadastrado com sucesso!');
+    if newRecord then
+      ShowMessage('Cidade cadastrada com sucesso!')
+    else
+      ShowMessage('Cidade alterada com sucesso!');
+
     Form2.Free;
 
   end;
@@ -181,6 +185,8 @@ procedure TForm2.FormShow(Sender: TObject);
 begin
 
   txtCode.SetFocus;
+  if not newRecord then
+    txtCode.Enabled := false;
 
 end;
 
