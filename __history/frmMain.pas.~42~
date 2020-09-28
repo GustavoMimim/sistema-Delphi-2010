@@ -11,13 +11,14 @@ type
     sideMenu: TTreeView;
     mainBody: TPanel;
     header: TPanel;
-    Panel1: TPanel;
-    Label1: TLabel;
+    panelSeach: TPanel;
+    lblSearch: TLabel;
     txtSearch: TEdit;
     lvRecords: TListView;
-    Panel2: TPanel;
+    panelButtons: TPanel;
     btnUpdate: TButton;
     btnAdd: TButton;
+    Label1: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
     procedure btnUpdateClick(Sender: TObject);
@@ -160,7 +161,7 @@ begin
 
   searchFor := QuotedStr('%' + txtSearch.Text + '%');
 
-  dt.sqlCity.SQL.Add('SELECT * from cidades WHERE nome LIKE ' + searchFor + ' OR codigo_cidade LIKE ' + searchFor + ' OR ' + IfThen(true, '""', txtSearch.Text) + ' BETWEEN cep_inicial AND cep_final');
+  dt.sqlCity.SQL.Add('SELECT * from cidades WHERE nome LIKE ' + searchFor + ' OR codigo_cidade LIKE ' + searchFor + ' OR ' + IfThen(txtSearch.Text = '', '''''', txtSearch.Text) + ' BETWEEN cep_inicial AND cep_final');
 
   dt.sqlCity.Open;
 

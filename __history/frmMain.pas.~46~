@@ -3,7 +3,7 @@ unit frmMain;
 interface
 
 uses
-  module, frmCity, Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  module, frmCity, frmCustomer, Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ComCtrls, ExtCtrls, StdCtrls, pngimage, DB, ADODB, StrUtils;
 
 type
@@ -11,13 +11,14 @@ type
     sideMenu: TTreeView;
     mainBody: TPanel;
     header: TPanel;
-    Panel1: TPanel;
-    Label1: TLabel;
+    panelSeach: TPanel;
+    lblSearch: TLabel;
     txtSearch: TEdit;
     lvRecords: TListView;
-    Panel2: TPanel;
+    panelButtons: TPanel;
     btnUpdate: TButton;
     btnAdd: TButton;
+    Label1: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
     procedure btnUpdateClick(Sender: TObject);
@@ -35,6 +36,7 @@ type
 var
   Form1: TForm1;
   Form2: TForm2;
+  Form3: TForm3;
   dt: TDm;
   typeSelected: String;
 
@@ -43,13 +45,23 @@ implementation
 {$R *.dfm}
 
 procedure TForm1.btnAddClick(Sender: TObject);
+var
+  form:  TForm;
+
 begin
 
-  Form2 := TForm2.Create(nil);
+  if typeSelected = 'Cidades' then
+  begin
+    form := TForm2.Create(nil);
+  end
+  else
+  begin
+    form := TForm3.Create(nil);
+  end;
 
-  Form2.newRecord := true;
-  Form2.btnRemove.Visible := false;
-  Form2.Show;
+  form.newRecord := true;
+  form.btnRemove.Visible := false;
+  form.Show;
 
 end;
 
@@ -160,7 +172,7 @@ begin
 
   searchFor := QuotedStr('%' + txtSearch.Text + '%');
 
-  dt.sqlCity.SQL.Add('SELECT * from cidades WHERE nome LIKE ' + searchFor + ' OR codigo_cidade LIKE ' + searchFor + ' OR ' + IfThen(true, '``', txtSearch.Text) + ' BETWEEN cep_inicial AND cep_final');
+  dt.sqlCity.SQL.Add('SELECT * from cidades WHERE nome LIKE ' + searchFor + ' OR codigo_cidade LIKE ' + searchFor + ' OR ' + IfThen(txtSearch.Text = '', '''''', txtSearch.Text) + ' BETWEEN cep_inicial AND cep_final');
 
   dt.sqlCity.Open;
 

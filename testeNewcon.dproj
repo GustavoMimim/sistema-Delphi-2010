@@ -53,6 +53,9 @@
 				<Form>Dm</Form>
 				<DesignClass>TDataModule</DesignClass>
 			</DCCReference>
+			<DCCReference Include="frmCustomer.pas">
+				<Form>Form3</Form>
+			</DCCReference>
 			<None Include="ModelSupport_testeNewcon\default.txaPackage"/>
 			<None Include="ModelSupport_testeNewcon\default.txvpck"/>
 			<None Include="ModelSupport_testeNewcon\frmMain\default.txvpck"/>

@@ -3,27 +3,29 @@ unit frmMain;
 interface
 
 uses
-  module, frmCity, Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ComCtrls, ExtCtrls, StdCtrls, pngimage, DB, ADODB;
+  module, frmCity, frmCustomer, Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ComCtrls, ExtCtrls, StdCtrls, pngimage, DB, ADODB, StrUtils;
 
 type
   TForm1 = class(TForm)
     sideMenu: TTreeView;
     mainBody: TPanel;
     header: TPanel;
-    Panel1: TPanel;
-    Label1: TLabel;
-    Edit1: TEdit;
+    panelSeach: TPanel;
+    lblSearch: TLabel;
+    txtSearch: TEdit;
     lvRecords: TListView;
-    Panel2: TPanel;
+    panelButtons: TPanel;
     btnUpdate: TButton;
     btnAdd: TButton;
+    Label1: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
     procedure btnUpdateClick(Sender: TObject);
     procedure sideMenuClick(Sender: TObject);
     procedure ListCities();
     procedure ListCustomers();
+    procedure txtSearchChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -34,6 +36,7 @@ type
 var
   Form1: TForm1;
   Form2: TForm2;
+  Form3: TForm3;
   dt: TDm;
   typeSelected: String;
 
@@ -43,21 +46,30 @@ implementation
 
 procedure TForm1.btnAddClick(Sender: TObject);
 begin
+  if typeSelected = 'Cidades' then
+  begin
+    Form2 := TForm2.Create(nil);
+    Form2.newRecord := true;
+    Form2.btnRemove.Visible := false;
+    Form2.Show;
+  end
+  else
+  begin
+    Form3 := TForm3.Create(nil);
+    Form3.newRecord := true;
+    Form3.btnRemove.Visible := false;
+    Form3.Show;
+  end;
 
-  Form2 := TForm2.Create(nil);
-
-  Form2.newRecord := true;
-  Form2.btnRemove.Visible := false;
-  Form2.Show;
 
 end;
 
 procedure TForm1.btnUpdateClick(Sender: TObject);
 begin
 
-  if lvRecords.ItemIndex = 0 then
+  if lvRecords.Items.Count = 0 then
   begin
-    ShowMessage('Por favor, selecione um registro!');
+    ShowMessage('Nenhum registro foi encontrado!');
     exit;
   end;
 
@@ -96,16 +108,16 @@ begin
   Col.Width := 160;
 
   Col := lvRecords.Columns.Add;
-  Col.Caption := 'UF';
+  Col.Caption := 'Telefone';
   Col.Width := 120;
 
   Col := lvRecords.Columns.Add;
-  Col.Caption := 'Feixa de Cep';
+  Col.Caption := 'Cidade';
   Col.Width := 150;
 
   dt.sqlCity.SQL.Clear;
 
-  dt.sqlCity.SQL.Add('SELECT * from clientes');
+  dt.sqlCity.SQL.Add('SELECT codigo_cliente, clientes.nome, telefone, cidades.nome AS cidade from clientes LEFT JOIN cidades ON cidades.codigo_cidade = clientes.codigo_cliente');
 
   dt.sqlCity.Open;
 
@@ -114,13 +126,13 @@ begin
 
     item := lvRecords.Items.Add;
 
-    item.Caption := dt.sqlCity.FieldByName('codigo_cidade').Value;
+    item.Caption := dt.sqlCity.FieldByName('codigo_cliente').Value;
 
     item.SubItems.Add(dt.sqlCity.FieldByName('nome').Value);
 
-    item.SubItems.Add(dt.sqlCity.FieldByName('estado').Value);
+    item.SubItems.Add(dt.sqlCity.FieldByName('telefone').Value);
 
-    item.SubItems.Add(dt.sqlCity.FieldByName('cep_inicial').Value + ' a ' + dt.sqlCity.FieldByName('cep_final').Value);
+    item.SubItems.Add(dt.sqlCity.FieldByName('cidade').Value);
 
     dt.sqlCity.Next;
 
@@ -132,6 +144,7 @@ procedure TForm1.ListCities();
 var
   item: TListItem;
   col: TListColumn;
+  searchFor: string;
 
 begin
 
@@ -156,7 +169,9 @@ begin
 
   dt.sqlCity.SQL.Clear;
 
-  dt.sqlCity.SQL.Add('SELECT * from cidades');
+  searchFor := QuotedStr('%' + txtSearch.Text + '%');
+
+  dt.sqlCity.SQL.Add('SELECT * from cidades WHERE nome LIKE ' + searchFor + ' OR codigo_cidade LIKE ' + searchFor + ' OR ' + IfThen(txtSearch.Text = '', '''''', txtSearch.Text) + ' BETWEEN cep_inicial AND cep_final');
 
   dt.sqlCity.Open;
 
@@ -186,7 +201,7 @@ begin
 
   typeSelected := 'Cidades';
 
-  createList();
+  directsTypeList();
 
 end;
 
@@ -194,7 +209,14 @@ procedure TForm1.sideMenuClick(Sender: TObject);
 begin
 
   typeSelected := sideMenu.Selected.Text;
+  directsTypeList();
 
+end;
+
+procedure TForm1.txtSearchChange(Sender: TObject);
+begin
+
+  directsTypeList();
 
 end;
 

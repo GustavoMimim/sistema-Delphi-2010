@@ -99,8 +99,17 @@ begin
 
     dt.sqlCity.Close;
     dt.sqlCity.SQL.Clear;
-    dt.sqlCity.SQL.Add('INSERT INTO cidades (codigo_cidade, nome, estado, cep_inicial, cep_final) VALUES ('+
-            QuotedStr(txtCode.Text)+ ', ' + QuotedStr(txtName.Text) + ', ' + QuotedStr(cbState.Text) + ', ' + QuotedStr(txtPostCodeStart.Text) + ',' + QuotedStr(txtPostCodeEnd.Text) + ')' );
+
+    if newRecord then
+
+      dt.sqlCity.SQL.Add('INSERT INTO cidades (codigo_cidade, nome, estado, cep_inicial, cep_final) VALUES ('+
+      QuotedStr(txtCode.Text)+ ', ' + QuotedStr(txtName.Text) + ', ' + QuotedStr(cbState.Text) + ', ' + QuotedStr(txtPostCodeStart.Text) + ',' + QuotedStr(txtPostCodeEnd.Text) + ')' )
+
+    else
+      dt.sqlCity.SQL.Add('UPDATE cidades SET nome = ' + QuotedStr(txtName.Text) + ', estado = ' + QuotedStr(cbState.Text) +
+      ', cep_inicial = ' + QuotedStr(txtPostCodeStart.Text) + ', cep_final = ' + QuotedStr(txtPostCodeEnd.Text) +
+      ' WHERE codigo_cidade = ' + QuotedStr(txtCode.Text));
+
     dt.sqlCity.ExecSQL();
 
   finally

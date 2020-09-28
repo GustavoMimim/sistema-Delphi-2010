@@ -30,10 +30,6 @@ object Form2: TForm2
     Color = 15724527
     ParentBackground = False
     TabOrder = 0
-    ExplicitLeft = 3
-    ExplicitTop = 3
-    ExplicitWidth = 204
-    ExplicitHeight = 321
     object Label4: TLabel
       Left = 8
       Top = 183
@@ -68,6 +64,7 @@ object Form2: TForm2
       Width = 182
       Height = 21
       MaxLength = 8
+      NumbersOnly = True
       TabOrder = 4
     end
     object txtPostCodeStart: TEdit
@@ -76,6 +73,7 @@ object Form2: TForm2
       Width = 182
       Height = 21
       MaxLength = 8
+      NumbersOnly = True
       TabOrder = 3
     end
     object txtCode: TEdit
@@ -138,8 +136,6 @@ object Form2: TForm2
       Align = alBottom
       BevelOuter = bvNone
       TabOrder = 5
-      ExplicitTop = 256
-      ExplicitWidth = 200
       object btnSave: TButton
         Left = 8
         Top = 16

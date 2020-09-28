@@ -3,7 +3,7 @@ unit frmMain;
 interface
 
 uses
-  module, frmCity, Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  module, frmCity, frmCustomer, Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ComCtrls, ExtCtrls, StdCtrls, pngimage, DB, ADODB, StrUtils;
 
 type
@@ -11,13 +11,14 @@ type
     sideMenu: TTreeView;
     mainBody: TPanel;
     header: TPanel;
-    Panel1: TPanel;
-    Label1: TLabel;
+    panelSeach: TPanel;
+    lblSearch: TLabel;
     txtSearch: TEdit;
     lvRecords: TListView;
-    Panel2: TPanel;
+    panelButtons: TPanel;
     btnUpdate: TButton;
     btnAdd: TButton;
+    Label1: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
     procedure btnUpdateClick(Sender: TObject);
@@ -35,6 +36,7 @@ type
 var
   Form1: TForm1;
   Form2: TForm2;
+  Form3: TForm3;
   dt: TDm;
   typeSelected: String;
 
@@ -44,21 +46,30 @@ implementation
 
 procedure TForm1.btnAddClick(Sender: TObject);
 begin
+  if typeSelected = 'Cidades' then
+  begin
+    Form2 := TForm2.Create(nil);
+    Form2.newRecord := true;
+    Form2.btnRemove.Visible := false;
+    Form2.Show;
+  end
+  else
+  begin
+    Form3 := TForm3.Create(nil);
+    Form3.newRecord := true;
+    Form3.btnRemove.Visible := false;
+    Form3.Show;
+  end;
 
-  Form2 := TForm2.Create(nil);
-
-  Form2.newRecord := true;
-  Form2.btnRemove.Visible := false;
-  Form2.Show;
 
 end;
 
 procedure TForm1.btnUpdateClick(Sender: TObject);
 begin
 
-  if lvRecords.ItemIndex = 0 then
+  if lvRecords.Items.Count = 0 then
   begin
-    ShowMessage('Por favor, selecione um registro!');
+    ShowMessage('Nenhum registro foi encontrado!');
     exit;
   end;
 
@@ -75,6 +86,9 @@ begin
     ListCities();
   if typeSelected = 'Clientes' then
     ListCustomers();
+
+  if lvRecords.Items.Count > 0 then
+    lvRecords.ItemIndex := 0;
 
 end;
 
@@ -196,7 +210,12 @@ end;
 
 procedure TForm1.sideMenuClick(Sender: TObject);
 begin
-
+  if sideMenu.Selected.Text = 'Relatórios' then
+  begin    
+    ShowMessage('Desculpe, essa parte do sistema ainda não foi implantada!');
+    sideMenu.Items[0].Selected := true;     
+  end;
+  
   typeSelected := sideMenu.Selected.Text;
   directsTypeList();
 

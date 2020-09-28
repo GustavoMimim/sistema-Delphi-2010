@@ -28,7 +28,22 @@ object Form1: TForm1
     Color = 15395562
     ParentBackground = False
     TabOrder = 0
-    object Panel2: TPanel
+    object Label1: TLabel
+      Left = -2
+      Top = 3
+      Width = 121
+      Height = 25
+      Alignment = taCenter
+      AutoSize = False
+      Caption = 'LOGO'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Arial Black'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object panelButtons: TPanel
       AlignWithMargins = True
       Left = 429
       Top = 3
@@ -107,7 +122,7 @@ object Form1: TForm1
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
-    object Panel1: TPanel
+    object panelSeach: TPanel
       Left = 0
       Top = 0
       Width = 551
@@ -117,7 +132,7 @@ object Form1: TForm1
       Color = 15395562
       ParentBackground = False
       TabOrder = 0
-      object Label1: TLabel
+      object lblSearch: TLabel
         AlignWithMargins = True
         Left = 5
         Top = 3

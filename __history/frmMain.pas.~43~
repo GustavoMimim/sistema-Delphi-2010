@@ -3,27 +3,29 @@ unit frmMain;
 interface
 
 uses
-  module, frmCity, Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ComCtrls, ExtCtrls, StdCtrls, pngimage, DB, ADODB;
+  module, frmCity, frmCustomer, Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ComCtrls, ExtCtrls, StdCtrls, pngimage, DB, ADODB, StrUtils;
 
 type
   TForm1 = class(TForm)
     sideMenu: TTreeView;
     mainBody: TPanel;
     header: TPanel;
-    Panel1: TPanel;
-    Label1: TLabel;
-    Edit1: TEdit;
+    panelSeach: TPanel;
+    lblSearch: TLabel;
+    txtSearch: TEdit;
     lvRecords: TListView;
-    Panel2: TPanel;
+    panelButtons: TPanel;
     btnUpdate: TButton;
     btnAdd: TButton;
+    Label1: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
     procedure btnUpdateClick(Sender: TObject);
     procedure sideMenuClick(Sender: TObject);
     procedure ListCities();
     procedure ListCustomers();
+    procedure txtSearchChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -105,7 +107,7 @@ begin
 
   dt.sqlCity.SQL.Clear;
 
-  dt.sqlCity.SQL.Add('SELECT codigo_cliente, nome, telefone, cidades.nome AS cidade from clientes LEFT JOIN cidades ON cidades.codigo_cidade = clientes.codigo');
+  dt.sqlCity.SQL.Add('SELECT codigo_cliente, clientes.nome, telefone, cidades.nome AS cidade from clientes LEFT JOIN cidades ON cidades.codigo_cidade = clientes.codigo_cliente');
 
   dt.sqlCity.Open;
 
@@ -132,6 +134,7 @@ procedure TForm1.ListCities();
 var
   item: TListItem;
   col: TListColumn;
+  searchFor: string;
 
 begin
 
@@ -156,7 +159,9 @@ begin
 
   dt.sqlCity.SQL.Clear;
 
-  dt.sqlCity.SQL.Add('SELECT * from cidades');
+  searchFor := QuotedStr('%' + txtSearch.Text + '%');
+
+  dt.sqlCity.SQL.Add('SELECT * from cidades WHERE nome LIKE ' + searchFor + ' OR codigo_cidade LIKE ' + searchFor + ' OR ' + IfThen(txtSearch.Text = '', '''''', txtSearch.Text) + ' BETWEEN cep_inicial AND cep_final');
 
   dt.sqlCity.Open;
 
@@ -186,7 +191,7 @@ begin
 
   typeSelected := 'Cidades';
 
-  createList();
+  directsTypeList();
 
 end;
 
@@ -194,7 +199,14 @@ procedure TForm1.sideMenuClick(Sender: TObject);
 begin
 
   typeSelected := sideMenu.Selected.Text;
+  directsTypeList();
 
+end;
+
+procedure TForm1.txtSearchChange(Sender: TObject);
+begin
+
+  directsTypeList();
 
 end;
 
