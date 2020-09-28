@@ -11,28 +11,29 @@ object Form2: TForm2
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  FormStyle = fsMDIForm
   OldCreateOrder = False
   Position = poScreenCenter
   Visible = True
   OnCreate = FormCreate
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
-    AlignWithMargins = True
-    Left = 3
-    Top = 3
-    Width = 204
-    Height = 321
+    Left = 0
+    Top = 0
+    Width = 210
+    Height = 327
     Align = alClient
     BevelKind = bkTile
     BevelOuter = bvNone
     Color = 15724527
     ParentBackground = False
     TabOrder = 0
-    ExplicitLeft = -2
-    ExplicitTop = 8
-    ExplicitWidth = 344
-    ExplicitHeight = 376
+    ExplicitLeft = 3
+    ExplicitTop = 3
+    ExplicitWidth = 204
+    ExplicitHeight = 321
     object Label4: TLabel
       Left = 8
       Top = 183
@@ -43,21 +44,21 @@ object Form2: TForm2
     object Label2: TLabel
       Left = 8
       Top = 64
-      Width = 72
+      Width = 27
       Height = 13
       Caption = 'Nome'
     end
     object Label1: TLabel
       Left = 8
       Top = 8
-      Width = 78
+      Width = 33
       Height = 13
       Caption = 'C'#243'digo'
     end
     object Label3: TLabel
       Left = 8
       Top = 123
-      Width = 78
+      Width = 33
       Height = 13
       Caption = 'Estado'
     end
@@ -66,21 +67,23 @@ object Form2: TForm2
       Top = 229
       Width = 182
       Height = 21
-      TabOrder = 0
+      MaxLength = 8
+      TabOrder = 4
     end
     object txtPostCodeStart: TEdit
       Left = 8
       Top = 202
       Width = 182
       Height = 21
-      TabOrder = 1
+      MaxLength = 8
+      TabOrder = 3
     end
     object txtCode: TEdit
       Left = 8
       Top = 27
       Width = 182
       Height = 21
-      TabOrder = 2
+      TabOrder = 0
     end
     object cbState: TComboBox
       Left = 8
@@ -90,7 +93,7 @@ object Form2: TForm2
       BevelInner = bvNone
       BevelOuter = bvNone
       Style = csDropDownList
-      TabOrder = 3
+      TabOrder = 2
       Items.Strings = (
         'Acre'
         'Alagoas'
@@ -125,17 +128,18 @@ object Form2: TForm2
       Top = 83
       Width = 182
       Height = 21
-      TabOrder = 4
+      TabOrder = 1
     end
     object Panel2: TPanel
       Left = 0
-      Top = 256
-      Width = 200
+      Top = 262
+      Width = 206
       Height = 61
       Align = alBottom
       BevelOuter = bvNone
       TabOrder = 5
-      ExplicitTop = 272
+      ExplicitTop = 256
+      ExplicitWidth = 200
       object btnSave: TButton
         Left = 8
         Top = 16
@@ -152,6 +156,7 @@ object Form2: TForm2
         Height = 25
         Caption = 'Remover'
         TabOrder = 1
+        OnClick = btnRemoveClick
       end
     end
   end

@@ -24,6 +24,8 @@ type
     procedure btnSaveClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     function validates(): boolean;
+    procedure btnRemoveClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -52,15 +54,37 @@ begin
   begin
     ShowMessage('Não foi possível encontrar a cidade selecionada, por favor, tente novamente!');
     Form2.Release;
+
     exit;
   end
   else
   begin
     txtCode.Text := dt.sqlCity.FieldByName('codigo_cidade').Value;
     txtName.Text := dt.sqlCity.FieldByName('nome').Value;
-    cbState.ItemIndex := cbState.Items.IndexOfName(dt.sqlCity.FieldByName('estado').Value);
+    cbState.ItemIndex := cbState.Items.IndexOf(dt.sqlCity.FieldByName('estado').Value);
     txtPostCodeStart.Text := dt.sqlCity.FieldByName('cep_inicial').Value;
     txtPostCodeEnd.Text := dt.sqlCity.FieldByName('cep_final').Value;
+  end;
+
+end;
+
+procedure TForm2.btnRemoveClick(Sender: TObject);
+begin
+
+  if MessageDlg('Deseja mesmo remover a cidade?', mtConfirmation,[mbYes, mbNo], 0) = mrNo then
+    exit;
+
+  try
+
+  dt.sqlCity.Close;
+  dt.sqlCity.SQL.Clear;
+  dt.sqlCity.SQL.Add('DELETE FROM cidades WHERE codigo_cidade = ' + txtCode.Text );
+  dt.sqlCity.ExecSQL();
+
+  finally
+
+    ShowMessage('Cidade removida com sucesso!');
+
   end;
 
 end;
@@ -68,18 +92,29 @@ end;
 procedure TForm2.btnSaveClick(Sender: TObject);
 begin
 
-  validates();
+  if not validates() then
+    exit;
 
-  dt.sqlCity.Close;
-  dt.sqlCity.SQL.Clear;
-  dt.sqlCity.SQL.Add('INSERT INTO cidades (codigo_cidade, nome, estado, cep_inicial, cep_final) VALUES ('+
-          QuotedStr(txtCode.Text)+ ', ' + QuotedStr(txtName.Text) + ', ' + QuotedStr(cbState.Text) + ', ' + QuotedStr(txtPostCodeStart.Text) + ',' + QuotedStr(txtPostCodeEnd.Text) + ')' );
-  dt.sqlCity.ExecSQL();
+  try
 
+    dt.sqlCity.Close;
+    dt.sqlCity.SQL.Clear;
+    dt.sqlCity.SQL.Add('INSERT INTO cidades (codigo_cidade, nome, estado, cep_inicial, cep_final) VALUES ('+
+            QuotedStr(txtCode.Text)+ ', ' + QuotedStr(txtName.Text) + ', ' + QuotedStr(cbState.Text) + ', ' + QuotedStr(txtPostCodeStart.Text) + ',' + QuotedStr(txtPostCodeEnd.Text) + ')' );
+    dt.sqlCity.ExecSQL();
+
+  finally
+
+    ShowMessage('Cidade cadastrado com sucesso!');
+    Form2.Free;
+
+  end;
 end;
 
 function TForm2.validates(): boolean;
 begin
+
+  validates := false;
 
   if Length(txtCode.Text) = 0 then
   begin
@@ -90,16 +125,15 @@ begin
   else
     if newRecord then
     begin
+      dt.sqlCity.SQL.Clear;
       dt.sqlCity.SQL.Add('SELECT COUNT(*) AS qtd FROM cidades WHERE codigo_cidade = ' + QuotedStr(txtCode.Text));
       dt.sqlCity.Open;
-
       if dt.sqlCity.FieldByName('qtd').Value > 0  then
       begin
         ShowMessage('O código da cidade deve ser único!');
         txtCode.SetFocus;
         exit;
       end;
-
     end;
 
   if Length(txtName.Text) = 0 then
@@ -131,6 +165,13 @@ procedure TForm2.FormCreate(Sender: TObject);
 begin
 
   dt := TDm.Create(Self);
+
+end;
+
+procedure TForm2.FormShow(Sender: TObject);
+begin
+
+  txtCode.SetFocus;
 
 end;
 

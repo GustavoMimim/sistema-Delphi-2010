@@ -4,18 +4,18 @@
     <property name="$defaultDiagram" value="true" />
     <property name="$metaclass" value="Package Diagram" />
     <property name="$name" value="default" />
-    <reference referencedUin="design:view:::wegelpeu3cfkv5js_v">
+    <reference referencedUin="uml:package:testeNewcon:src:frmMain">
       <property name="$shortcutReference" value="true" />
       <property name="bounds" value="10,10,100,151" />
       <reference referencedUin="delphi:e_class:src:testeNewcon:frmMain.TForm1" />
       <reference referencedUin="delphi:e_class:src:testeNewcon:frmMain.@unitclass" />
     </reference>
-    <reference referencedUin="design:view:::iqb74l2t6cj03mcl_v">
+    <reference referencedUin="uml:package:testeNewcon:src:testeNewcon">
       <property name="$shortcutReference" value="true" />
       <property name="bounds" value="129,1,127,134" />
       <reference referencedUin="delphi:e_class:src:testeNewcon:testeNewcon.@unitclass" />
     </reference>
-    <reference referencedUin="design:view:::0yvxofx0yh2p3bbst_v">
+    <reference referencedUin="uml:package:testeNewcon:src:frmCity">
       <property name="$shortcutReference" value="true" />
       <property name="bounds" value="129,154,96,151" />
       <reference referencedUin="delphi:e_class:src:testeNewcon:frmCity.TForm2" />

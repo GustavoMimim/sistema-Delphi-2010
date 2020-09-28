@@ -49,6 +49,10 @@
 			<DCCReference Include="frmCity.pas">
 				<Form>Form2</Form>
 			</DCCReference>
+			<DCCReference Include="module.pas">
+				<Form>Dm</Form>
+				<DesignClass>TDataModule</DesignClass>
+			</DCCReference>
 			<None Include="ModelSupport_testeNewcon\default.txaPackage"/>
 			<None Include="ModelSupport_testeNewcon\default.txvpck"/>
 			<None Include="ModelSupport_testeNewcon\frmMain\default.txvpck"/>
@@ -57,6 +61,7 @@
 			<None Include="ModelSupport_testeNewcon\frmCity\default.txvpck"/>
 			<None Include="ModelSupport_testeNewcon\frmCity\default.txaPackage"/>
 			<None Include="ModelSupport_testeNewcon\module\default.txaPackage"/>
+			<None Include="ModelSupport_testeNewcon\module\default.txvpck"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

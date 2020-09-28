@@ -54,7 +54,6 @@ object Form1: TForm1
         ParentFont = False
         TabOrder = 0
         OnClick = btnUpdateClick
-        ExplicitLeft = 86
       end
       object btnAdd: TButton
         Left = 86
@@ -71,7 +70,6 @@ object Form1: TForm1
         ParentFont = False
         TabOrder = 1
         OnClick = btnAddClick
-        ExplicitLeft = 11
       end
     end
   end
@@ -80,6 +78,10 @@ object Form1: TForm1
     Top = 36
     Width = 121
     Height = 263
+    Margins.Left = 0
+    Margins.Top = 0
+    Margins.Right = 0
+    Margins.Bottom = 0
     Align = alLeft
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
@@ -89,6 +91,7 @@ object Form1: TForm1
     Indent = 19
     ParentFont = False
     TabOrder = 1
+    OnClick = sideMenuClick
     Items.NodeData = {
       03030000002C0000000000000000000000FFFFFFFFFFFFFFFF00000000000000
       0000000000010743006900640061006400650073002E00000000000000010000
@@ -102,11 +105,12 @@ object Form1: TForm1
     Width = 551
     Height = 263
     Align = alClient
+    BevelOuter = bvNone
     TabOrder = 2
     object Panel1: TPanel
-      Left = 1
-      Top = 1
-      Width = 549
+      Left = 0
+      Top = 0
+      Width = 551
       Height = 52
       Align = alTop
       BevelOuter = bvNone
@@ -117,25 +121,25 @@ object Form1: TForm1
         AlignWithMargins = True
         Left = 5
         Top = 3
-        Width = 539
+        Width = 541
         Height = 16
         Margins.Left = 5
         Margins.Right = 5
         Align = alTop
-        Caption = 'Pesquisar'
+        Caption = 'Pesquisar (codigo, nome ou cep)'
         Font.Charset = ANSI_CHARSET
         Font.Color = clBlack
         Font.Height = -13
         Font.Name = 'Arial'
         Font.Style = []
         ParentFont = False
-        ExplicitWidth = 58
+        ExplicitWidth = 191
       end
-      object Edit1: TEdit
+      object txtSearch: TEdit
         AlignWithMargins = True
         Left = 5
         Top = 25
-        Width = 539
+        Width = 541
         Height = 24
         Margins.Left = 5
         Margins.Right = 5
@@ -147,14 +151,15 @@ object Form1: TForm1
         Font.Style = []
         ParentFont = False
         TabOrder = 0
+        OnChange = txtSearchChange
       end
     end
     object lvRecords: TListView
       AlignWithMargins = True
-      Left = 6
-      Top = 58
-      Width = 539
-      Height = 199
+      Left = 5
+      Top = 57
+      Width = 541
+      Height = 201
       Margins.Left = 5
       Margins.Top = 5
       Margins.Right = 5
