@@ -7,14 +7,14 @@ object Dm: TDm
     Connection = ADOConnection1
     CursorType = ctStatic
     Parameters = <>
-    Left = 104
-    Top = 16
+    Left = 112
+    Top = 24
   end
   object ADOConnection1: TADOConnection
     ConnectionString = 
       'Provider=SQLNCLI11.1;Integrated Security=SSPI;Persist Security I' +
-      'nfo=False;User ID="";Initial Catalog="";Data Source=localhost;In' +
-      'itial File Name="";Server SPN=""'
+      'nfo=False;User ID="";Initial Catalog=newcon_teste;Data Source=DE' +
+      'SKTOP-7ELQ00I\MSSQLSERVER01;Initial File Name="";Server SPN="";'
     Provider = 'SQLNCLI11.1'
     Left = 40
     Top = 16

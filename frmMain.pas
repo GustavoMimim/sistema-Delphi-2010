@@ -4,13 +4,13 @@ interface
 
 uses
   module, frmCity, frmCustomer, Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ComCtrls, ExtCtrls, StdCtrls, pngimage, DB, ADODB, StrUtils;
+  Dialogs, ComCtrls, ExtCtrls, StdCtrls, pngimage, DB, ADODB, StrUtils,
+  GestureCtrls;
 
 type
   TForm1 = class(TForm)
-    sideMenu: TTreeView;
     mainBody: TPanel;
-    header: TPanel;
+    headerBottom: TPanel;
     panelSeach: TPanel;
     lblSearch: TLabel;
     txtSearch: TEdit;
@@ -20,6 +20,8 @@ type
     btnAdd: TButton;
     Label1: TLabel;
     btnRefresh: TButton;
+    Panel1: TPanel;
+    sideMenu: TTreeView;
     procedure FormCreate(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
     procedure btnUpdateClick(Sender: TObject);
@@ -28,6 +30,7 @@ type
     procedure ListCustomers();
     procedure txtSearchChange(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
+    procedure FormResize(Sender: TObject);
   private
     { Private declarations }
   public
@@ -52,15 +55,19 @@ begin
   begin
     Form2 := TForm2.Create(nil);
     Form2.newRecord := true;
-    Form2.btnRemove.Visible := false;
+    Form2.txtCode.Enabled := true;
+    Form2.btnRemove.Enabled := false;
     Form2.Show;
+    Form2.loadCity('0');
   end
   else
   begin
     Form3 := TForm3.Create(nil);
     Form3.newRecord := true;
-    Form3.btnRemove.Visible := false;
+    Form3.txtCode.Enabled := true;
+    Form3.btnRemove.Enabled := false;
     Form3.Show;
+    Form3.loadCustomer('0');
   end;
 
 end;
@@ -100,8 +107,8 @@ procedure TForm1.directsTypeList();
 begin
 
   if typeSelected = 'Cidades' then
-    ListCities();
-  if typeSelected = 'Clientes' then
+    ListCities()
+  else if typeSelected = 'Clientes' then
     ListCustomers();
 
   if lvRecords.Items.Count > 0 then
@@ -112,32 +119,21 @@ end;
 procedure TForm1.ListCustomers();
 var
   item: TListItem;
-  col: TListColumn;
+  searchFor: string;
 
 begin
 
   lvRecords.Clear;
-  lvRecords.Columns.Clear;
 
-  Col := lvRecords.Columns.Add;
-  Col.Caption := 'Código';
-  Col.Width := 80;
-
-  Col := lvRecords.Columns.Add;
-  Col.Caption := 'Nome';
-  Col.Width := 160;
-
-  Col := lvRecords.Columns.Add;
-  Col.Caption := 'Telefone';
-  Col.Width := 120;
-
-  Col := lvRecords.Columns.Add;
-  Col.Caption := 'Cidade';
-  Col.Width := 150;
+  lvRecords.Columns[2].Caption := 'Telefone';
+  lvRecords.Columns[3].Caption := 'Cidade';
 
   dt.sqlCity.SQL.Clear;
 
-  dt.sqlCity.SQL.Add('SELECT codigo_cliente, clientes.nome, telefone, cidades.nome AS cidade from clientes LEFT JOIN cidades ON cidades.codigo_cidade = clientes.codigo_cidade');
+  searchFor := QuotedStr('%' + txtSearch.Text + '%');
+
+  dt.sqlCity.SQL.Add('SELECT codigo_cliente, clientes.nome, telefone, cidades.nome AS cidade from clientes LEFT JOIN cidades ON cidades.codigo_cidade = clientes.codigo_cidade ' +
+  'WHERE clientes.nome LIKE ' + searchFor + ' OR codigo_cliente LIKE ' + searchFor + ' OR cep LIKE ' + searchFor);
 
   dt.sqlCity.Open;
 
@@ -163,35 +159,20 @@ end;
 procedure TForm1.ListCities();
 var
   item: TListItem;
-  col: TListColumn;
   searchFor: string;
 
 begin
 
   lvRecords.Clear;
-  lvRecords.Columns.Clear;
 
-  Col := lvRecords.Columns.Add;
-  Col.Caption := 'Código';
-  Col.Width := 80;
-
-  Col := lvRecords.Columns.Add;
-  Col.Caption := 'Nome';
-  Col.Width := 160;
-
-  Col := lvRecords.Columns.Add;
-  Col.Caption := 'UF';
-  Col.Width := 120;
-
-  Col := lvRecords.Columns.Add;
-  Col.Caption := 'Feixa de Cep';
-  Col.Width := 150;
+  lvRecords.Columns[2].Caption := 'UF';
+  lvRecords.Columns[3].Caption := 'Faixa de Cep';
 
   dt.sqlCity.SQL.Clear;
 
   searchFor := QuotedStr('%' + txtSearch.Text + '%');
 
-  dt.sqlCity.SQL.Add('SELECT * from cidades WHERE nome LIKE ' + searchFor + ' OR codigo_cidade LIKE ' + searchFor + ' OR ' + IfThen(txtSearch.Text = '', '''''', txtSearch.Text) + ' BETWEEN cep_inicial AND cep_final');
+  dt.sqlCity.SQL.Add('SELECT * from cidades WHERE nome LIKE ' + searchFor + ' OR codigo_cidade LIKE ' + searchFor + ' OR ' + QuotedStr(txtSearch.Text) + ' BETWEEN cep_inicial AND cep_final');
 
   dt.sqlCity.Open;
 
@@ -222,6 +203,18 @@ begin
   typeSelected := 'Cidades';
 
   directsTypeList();
+
+end;
+
+procedure TForm1.FormResize(Sender: TObject);
+begin
+
+  //Ajusta a propriedade width das colunas conforme o tamanho do form
+  lvRecords.Columns[0].Width := Round((10/100) * lvRecords.Width);
+  lvRecords.Columns[1].Width := Round((30/100) * lvRecords.Width);
+  lvRecords.Columns[2].Width := Round((20/100) * lvRecords.Width);
+  lvRecords.Columns[3].Width := Round((35/100) * lvRecords.Width);
+  lvRecords.Refresh;
 
 end;
 

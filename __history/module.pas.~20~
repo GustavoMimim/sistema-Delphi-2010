@@ -29,7 +29,7 @@ var
  strConn: String;
 
 begin
-  conf := TIniFile.Create(extractfilepath(ParamStr(0)) + 'conf.ini');
+  conf := TIniFile.Create(extractfilepath(ParamStr(0))+'conf.ini'); {loja.ini é o nome do arquivo criado na pasta de seu programa}
 
   strConn := conf.ReadString('access', 'stringConnection', 'Provider=SQLNCLI11.1;Integrated Security=SSPI;Persist Security Info=False;User ID="";Initial Catalog="";Data Source=localhost;Initial File Name="";Server SPN=""');
 
@@ -61,7 +61,7 @@ begin
     sqlCity.SQL.Add('IF NOT EXISTS(SELECT name FROM sysobjects WHERE xtype = ' + QuotedStr('U') + ' AND name = ' + QuotedStr('clientes') + ')' +
                     'BEGIN                                            ' +
                     'CREATE TABLE clientes (                          ' +
-                    '  codigo_cliente BIGINT NOT NULL, ' +
+                    '  codigo_cliente BIGINT IDENTITY(1, 1) NOT NULL, ' +
                     '  cgc_cpf_cliente NVARCHAR(14) NOT NULL,         ' +
                     '  nome NVARCHAR(150) NOT NULL,                   ' +
                     '  telefone NVARCHAR(50) NOT NULL,                ' +
@@ -77,7 +77,7 @@ begin
       sqlCity.SQL.Add('IF NOT EXISTS(SELECT name FROM sysobjects WHERE xtype = ' + QuotedStr('U') + ' AND name = ' + QuotedStr('cidades') + ')' +
                     'BEGIN                                           ' +
                     'CREATE TABLE cidades (                          ' +
-                    '  codigo_cidade BIGINT NOT NULL, ' +
+                    '  codigo_cidade BIGINT IDENTITY(1, 1) NOT NULL, ' +
                     '  nome NVARCHAR(100) NOT NULL,                  ' +
                     '  estado NVARCHAR(100) NOT NULL,                ' +
                     '  cep_inicial NVARCHAR(8) NOT NULL,             ' +

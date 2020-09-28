@@ -1,0 +1,65 @@
+unit module;
+
+interface
+
+uses
+  Forms, Dialogs, SysUtils, Classes, DB, ADODB, IniFiles;
+
+type
+  TDm = class(TDataModule)
+    sqlCity: TADOQuery;
+    ADOConnection1: TADOConnection;
+    procedure DataModuleCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Dm: TDm;
+
+implementation
+
+{$R *.dfm}
+
+procedure TDm.DataModuleCreate(Sender: TObject);
+var
+ conf: TIniFile;
+ strConn: String;
+
+begin
+  conf := TIniFile.Create(extractfilepath(ParamStr(0))+'conf.ini'); {loja.ini é o nome do arquivo criado na pasta de seu programa}
+
+  strConn := conf.ReadString('access', 'stringConnection', 'Provider=SQLNCLI11.1;Integrated Security=SSPI;Persist Security Info=False;User ID="";Initial Catalog="";Data Source=localhost;Initial File Name="";Server SPN=""');
+
+  ADOConnection1.ConnectionString := strConn;
+
+  Try
+    ADOConnection1.Open();
+
+    sqlCity.SQL.Clear;
+    sqlCity.SQL.Add('CREATE DATABASE IF NOT EXISTS `NEWCON_TEST`');
+    sqlCity.SQL.Add('CREATE TABLE IF NOT EXISTS NEWCON_TEST.cidades ( ' +
+      '[codigo_cliente] BIGINT IDENTITY(1, 1) NOT NULL ' +
+      ',[cgc_cpf_cliente] NVARCHAR(14) NOT NULL        ' +
+      ',[nome] NVARCHAR(150) NOT NULL                  ' +
+      ',[telefone] NVARCHAR(50) NOT NULL               ' +
+      ',[endereco] NVARCHAR(150) NOT NULL              ' +
+      ',[bairro] NVARCHAR(150) NOT NULL                ' +
+      ',[complemento] NVARCHAR(150) NOT NULL           ' +
+      ',[e_mail] NVARCHAR(100) NOT NULL                ' +
+      ',[codigo_cidade] BIGINT NOT NULL                ' +
+      ',[cep] NVARCHAR(14) NOT NULL                    ' +
+      ')');
+
+  Except on E: Exception do
+    begin
+      ShowMessage('Não foi possível se conectar ao banco de dados.' +  #13 + 'Erro: ' + E.Message + #13 + 'Tente alterar a string de conexão em ./conf.ini.');
+      Application.Terminate;
+    end;
+  end;
+
+end;
+
+end.

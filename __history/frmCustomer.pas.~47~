@@ -140,24 +140,10 @@ end;
 
 procedure TForm3.loadCustomer(codigo: String);
 begin
+  isLoading:=true;
 
   dt.sqlCity.Close;
   dt.sqlCity.SQL.Clear;
-
-  if newRecord then
-  begin
-
-    dt.sqlCity.SQL.Add('SELECT ISNULL(MAX(codigo_cliente) + 1, 1) AS newCode FROM clientes');
-
-    dt.sqlCity.Open;
-
-    txtCode.Text := dt.sqlCity.FieldByName('newCode').Value;
-
-    exit;
-  end;
-
-  isLoading := true;
-
   dt.sqlCity.SQL.Add('SELECT clientes.*, cidades.codigo_cidade AS codigocidade, cidades.nome AS cidade, cidades.estado FROM clientes LEFT JOIN cidades ON cidades.codigo_cidade = clientes.codigo_cidade WHERE codigo_cliente = ' + QuotedStr(codigo));
   dt.sqlCity.Open;
 
@@ -178,7 +164,6 @@ begin
     txtPostCode.Text := dt.sqlCity.FieldByName('cep').Value;
     txtCity.Text := dt.sqlCity.FieldByName('cidade').Value;
     cbState.ItemIndex := cbState.Items.IndexOf(dt.sqlCity.FieldByName('estado').Value);
-    txtDistrict.Text := dt.sqlCity.FieldByName('bairro').Value;
     txtAddress.Text := dt.sqlCity.FieldByName('endereco').Value;
     txtComplement.Text := dt.sqlCity.FieldByName('complemento').Value;
 
@@ -200,7 +185,10 @@ end;
 procedure TForm3.FormShow(Sender: TObject);
 begin
 
-  txtName.SetFocus;
+  txtCode.SetFocus;
+
+  txtCode.Enabled := newRecord;
+  btnRemove.Enabled := not newRecord;
 
 end;
 

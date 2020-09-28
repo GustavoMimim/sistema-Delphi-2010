@@ -47,7 +47,22 @@ begin
 
   dt.sqlCity.Close;
   dt.sqlCity.SQL.Clear;
+
+  if newRecord then
+  begin
+
+    dt.sqlCity.SQL.Add('SELECT ISNULL(MAX(codigo_cidade) + 1, 1) AS newCode FROM cidades');
+
+    dt.sqlCity.Open;
+
+    txtCode.Text := dt.sqlCity.FieldByName('newCode').Value;
+
+    exit;
+  end;
+
+
   dt.sqlCity.SQL.Add('SELECT * FROM cidades WHERE codigo_cidade = ' + QuotedStr(codigo));
+
   dt.sqlCity.Open;
 
   if dt.sqlCity.Eof then
@@ -184,9 +199,7 @@ end;
 procedure TForm2.FormShow(Sender: TObject);
 begin
 
-  txtCode.SetFocus;
-  if not newRecord then
-    txtCode.Enabled := false;
+  txtName.SetFocus;
 
 end;
 
