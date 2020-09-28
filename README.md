@@ -14,7 +14,7 @@
 </thead>
   <tbory>
     <tr>
-      <td>int</td><td>varchar(14)</td><td>varchar(100)</td><td>varchar(50)</td><td>varchar(10)</td><td>varchar(100)</td><td>varchar(100)</td><td>varchar(100)</td><td>int</td>
+      <td>int</td><td>varchar(14)</td><td>varchar(100)</td><td>varchar(50)</td><td>varchar(10)</td><td>varchar(100)</td><td>varchar(100)</td><td>varchar(100)</td><td>int</td><td>varchar(8)</td>
      </tr>
   </tbory>
 </table>
@@ -25,7 +25,7 @@
 </thead>
   <tbory>
     <tr>
-      <td>int</td><td>int</td><td>varchar(100)</td><td>varchar(100)</td><td>varchar(8)</td><td>varchar(8)</td>
+      <td>int</td><td>varchar(100)</td><td>varchar(100)</td><td>varchar(8)</td><td>varchar(8)</td>
      </tr>
 </table>
 
