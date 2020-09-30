@@ -4,7 +4,7 @@ interface
 
 uses
   frmFilters, module, frmCity, frmCustomer, StdCtrls, ComCtrls, Controls, Classes, ExtCtrls, Windows, Messages, SysUtils, Variants, Graphics, Forms,
-  Dialogs, pngimage, DB, ADODB, StrUtils, Tabs;
+  Dialogs, pngimage, DB, ADODB, StrUtils, Tabs, ShellAPI;
 
 type
   TForm1 = class(TForm)
@@ -37,6 +37,7 @@ type
     procedure ListCustomers();
     function verifyFiltersSQL(): String;
     procedure btnReportClick(Sender: TObject);
+    //procedure btnReportClick(Sender: TObject);
 
   private
     { Private declarations }
@@ -129,6 +130,100 @@ procedure TForm1.btnRefreshClick(Sender: TObject);
 begin
 
   directsTypeList(); 
+
+end;
+
+procedure TForm1.btnReportClick(Sender: TObject);
+var
+  filters, records: String;
+  I, n: Integer;
+
+  htmlStr, line: string;
+  fileReportBase, fileReport: TextFile;
+
+begin
+
+  if lvRecords.Items.Count = 0 then
+  begin
+    ShowMessage('Não há registros a serem exibidos no relatório!');
+    exit;
+  end;
+
+  if Length(txtSearch.Text) > 0 then
+    filters := filters +
+    '<tr> ' +
+    '    <td>Pesquisa por: <b>' + txtSearch.Text + '</b></td>' +
+    '</tr>';
+
+  if filterForm.cbState.ItemIndex > 0 then
+    filters := filters +
+    '<tr> ' +
+    '    <td>Estado: <b>' + filterForm.cbState.Text + '</b></td>' +
+    '</tr>';
+
+  if (Length(filterForm.txtCodeCityMin.Text) > 0) then
+    filters := filters +
+    '<tr> ' +
+    '    <td>Código de cidade no mínimo ' + filterForm.txtCodeCityMin.Text + '</td>' +
+    '</tr>';
+
+  if (Length(filterForm.txtCodeCityMax.Text) > 0) then
+    filters := filters +
+    '<tr> ' +
+    '    <td>Código de cidade até ' + filterForm.txtCodeCityMax.Text + '</td>' +
+    '</tr>';
+
+  if (Length(filterForm.txtCodeCustomerMin.Text) > 0) then
+    filters := filters +
+    '<tr> ' +
+    '    <td>Código de cliente no mínimo ' + filterForm.txtCodeCustomerMin.Text + '</td>' +
+    '</tr>';
+
+  if (Length(filterForm.txtCodeCustomerMax.Text) > 0) then
+    filters := filters +
+    '<tr> ' +
+    '    <td>Código de cliente até ' + filterForm.txtCodeCustomerMax.Text + '</td>' +
+    '</tr>';
+
+  for I := 0 to lvRecords.Items.Count - 1 do begin
+
+    records := records +
+    '<tr> ' +
+    '    <td>' + lvRecords.Items[i].Caption + '</td>' +
+    '    <td>' + lvRecords.Items[i].SubItems[0] + '</td>' +
+    '    <td>' + lvRecords.Items[i].SubItems[1] + '</td>' +
+    '</tr>';
+
+  end;
+
+   AssignFile(fileReportBase, 'report.html');
+   AssignFile(fileReport, 'reportCreated.html');
+
+   Reset(fileReportBase); //abre o arquivo para leitura;
+   Rewrite(fileReport);   //abre o arquivo para leitura;
+
+   While not eof(fileReportBase) do begin
+     Readln(fileReportBase, line);
+
+     if Pos('#filtros', line) > 0 then
+      line := filters;
+
+     if Pos('#dataGerado', line) > 0 then
+      line :=  DateToStr(Date());
+
+     if Pos('#totalRegistros', line) > 0 then
+      line := IntToStr(lvRecords.Items.Count);
+
+     if Pos('#registros', line) > 0 then
+      line := records;
+
+     Writeln(fileReport, line);
+   End;
+
+   Closefile(fileReportBase);
+   Closefile(fileReport);
+
+   ShellExecute(Handle, 'open', 'reportCreated.html', '', '', SW_SHOWNORMAL);
 
 end;
 
@@ -246,14 +341,12 @@ begin
     strWhere := strWhere +   ' AND '
   end;
 
-  Val(filterForm.txtCodeCityMin.Text, I, CodeMin);
-  Val(filterForm.txtCodeCityMax.Text, I, CodeMax);
   // Define o limite de pesquisa do código da cidade
-  if (CodeMin = 0) and (CodeMax = 0) then
+  if (Length(filterForm.txtCodeCityMin.Text) > 0) and (Length(filterForm.txtCodeCityMax.Text) > 0) then
      strWhere := strWhere + 'cidades.codigo_cidade BETWEEN ' + filterForm.txtCodeCityMin.Text + ' AND ' + filterForm.txtCodeCityMax.Text + ' AND '
-  else if CodeMin = 0 then
+  else if Length(filterForm.txtCodeCityMin.Text) > 0 then
     strWhere := strWhere + 'cidades.codigo_cidade >= ' + filterForm.txtCodeCityMin.Text + ' AND '
-  else if CodeMax = 0 then
+  else if Length(filterForm.txtCodeCityMax.Text) > 0 then
     strWhere := strWhere + 'cidades.codigo_cidade <= ' + filterForm.txtCodeCityMax.Text + ' AND ';
 
   // Filtro por estado
@@ -263,14 +356,13 @@ begin
   if typeSelected = 'Clientes' then
   begin
 
-    Val(filterForm.txtCodeCustomerMin.Text, I, CodeMin);
-    Val(filterForm.txtCodeCustomerMax.Text, I, CodeMax);
+
     // Define o limite de pesquisa do código do cliente
-    if (CodeMin = 0) and (CodeMax = 0) then
+    if (Length(filterForm.txtCodeCustomerMin.Text) > 0) and (Length(filterForm.txtCodeCustomerMax.Text) > 0) then
        strWhere := strWhere + ' codigo_cliente BETWEEN ' + filterForm.txtCodeCustomerMin.Text + ' AND ' + filterForm.txtCodeCustomerMax.Text
-    else if CodeMin = 0 then
+    else if Length(filterForm.txtCodeCustomerMin.Text) > 0 then
       strWhere := strWhere + ' codigo_cliente >= ' + filterForm.txtCodeCustomerMin.Text
-    else if CodeMax = 0 then
+    else if Length(filterForm.txtCodeCustomerMax.Text) > 0 then
       strWhere := strWhere + ' codigo_cliente <= ' + filterForm.txtCodeCustomerMax.Text;
 
   end;

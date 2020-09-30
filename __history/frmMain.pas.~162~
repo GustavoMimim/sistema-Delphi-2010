@@ -36,6 +36,8 @@ type
     procedure ListCities();
     procedure ListCustomers();
     function verifyFiltersSQL(): String;
+    procedure btnReportClick(Sender: TObject);
+    //procedure btnReportClick(Sender: TObject);
 
   private
     { Private declarations }
@@ -128,6 +130,59 @@ procedure TForm1.btnRefreshClick(Sender: TObject);
 begin
 
   directsTypeList(); 
+
+end;
+
+procedure TForm1.btnReportClick(Sender: TObject);
+var
+  filters: String;
+  records: String;
+  I: Integer;
+
+begin
+
+  if lvRecords.Items.Count = 0 then
+  begin
+    ShowMessage('Não há registros a serem exibidos no relatório!');
+    exit;
+  end;
+
+  if Length(txtSearch.Text) > 0 then
+    filters := +
+    '<tr> ' +
+    '    <td>Pesquisa por: <b>' + txtSearch.Text + '</b></td>' +
+    '</tr>';
+
+  if filterForm.cbState.ItemIndex > 0 then
+    filters := +
+    '<tr> ' +
+    '    <td>Estado: <b>' + filterForm.cbState.Text + '</b></td>' +
+    '</tr>';
+
+  if (Length(filterForm.txtCodeCityMin.Text) > 0) or (Length(filterForm.txtCodeCityMax.Text) > 0) then
+    filters := filters +
+    '<tr> ' +
+    '    <td>Código de cidade entre ' + filterForm.txtCodeCityMin.Text + ' até ' + filterForm.txtCodeCityMax.Text + '</td>' +
+    '</tr>';
+
+  if (Length(filterForm.txtCodeCustomerMin.Text) > 0) and (Length(filterForm.txtCodeCustomerMax.Text) > 0) then
+    filters := filters +
+    '<tr> ' +
+    '    <td>Código de cliente entre ' + filterForm.txtCodeCustomerMin.Text + ' até ' + filterForm.txtCodeCustomerMax.Text + '</td>' +
+    '</tr>';
+
+  for I := 0 to lvRecords.Items.Count - 1 do begin
+
+    records := records +
+    '<tr> ' +
+    '    <td>' + lvRecords.Items[i].Caption + '</td>' +
+    '    <td>' + lvRecords.Items[i].SubItems[0] + '</td>' +
+    '    <td>' + lvRecords.Items[i].SubItems[1] + '</td>' +
+    '    <td>' + lvRecords.Items[i].SubItems[2] + '</td>' +
+    '</tr>';
+
+  end;
+
 
 end;
 
@@ -245,14 +300,12 @@ begin
     strWhere := strWhere +   ' AND '
   end;
 
-  Val(filterForm.txtCodeCityMin.Text, I, CodeMin);
-  Val(filterForm.txtCodeCityMax.Text, I, CodeMax);
   // Define o limite de pesquisa do código da cidade
-  if (CodeMin = 0) and (CodeMax = 0) then
+  if (Length(filterForm.txtCodeCityMin.Text) > 0) and (Length(filterForm.txtCodeCityMax.Text) > 0) then
      strWhere := strWhere + 'cidades.codigo_cidade BETWEEN ' + filterForm.txtCodeCityMin.Text + ' AND ' + filterForm.txtCodeCityMax.Text + ' AND '
-  else if CodeMin = 0 then
+  else if Length(filterForm.txtCodeCityMin.Text) > 0 then
     strWhere := strWhere + 'cidades.codigo_cidade >= ' + filterForm.txtCodeCityMin.Text + ' AND '
-  else if CodeMax = 0 then
+  else if Length(filterForm.txtCodeCityMax.Text) > 0 then
     strWhere := strWhere + 'cidades.codigo_cidade <= ' + filterForm.txtCodeCityMax.Text + ' AND ';
 
   // Filtro por estado
@@ -262,14 +315,13 @@ begin
   if typeSelected = 'Clientes' then
   begin
 
-    Val(filterForm.txtCodeCustomerMin.Text, I, CodeMin);
-    Val(filterForm.txtCodeCustomerMax.Text, I, CodeMax);
+
     // Define o limite de pesquisa do código do cliente
-    if (CodeMin = 0) and (CodeMax = 0) then
+    if (Length(filterForm.txtCodeCustomerMin.Text) > 0) and (Length(filterForm.txtCodeCustomerMax.Text) > 0) then
        strWhere := strWhere + ' codigo_cliente BETWEEN ' + filterForm.txtCodeCustomerMin.Text + ' AND ' + filterForm.txtCodeCustomerMax.Text
-    else if CodeMin = 0 then
+    else if Length(filterForm.txtCodeCustomerMin.Text) > 0 then
       strWhere := strWhere + ' codigo_cliente >= ' + filterForm.txtCodeCustomerMin.Text
-    else if CodeMax = 0 then
+    else if Length(filterForm.txtCodeCustomerMax.Text) > 0 then
       strWhere := strWhere + ' codigo_cliente <= ' + filterForm.txtCodeCustomerMax.Text;
 
   end;

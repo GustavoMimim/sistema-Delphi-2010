@@ -77,7 +77,6 @@ object Form1: TForm1
         ParentFont = False
         TabOrder = 0
         OnClick = btnUpdateClick
-        ExplicitLeft = 156
       end
       object btnAdd: TButton
         Left = 124
@@ -94,7 +93,6 @@ object Form1: TForm1
         ParentFont = False
         TabOrder = 1
         OnClick = btnAddClick
-        ExplicitLeft = 76
       end
       object btnReport: TButton
         Left = 0
@@ -111,9 +109,6 @@ object Form1: TForm1
         ParentFont = False
         TabOrder = 2
         OnClick = btnReportClick
-        ExplicitLeft = 16
-        ExplicitWidth = 32
-        ExplicitHeight = 100
       end
     end
   end
@@ -168,8 +163,6 @@ object Form1: TForm1
       ParentFont = False
       TabOrder = 0
       ViewStyle = vsReport
-      ExplicitLeft = 5
-      ExplicitWidth = 554
     end
     object panelHeader: TPanel
       AlignWithMargins = True
@@ -185,8 +178,6 @@ object Form1: TForm1
       BevelKind = bkFlat
       BevelOuter = bvNone
       TabOrder = 1
-      ExplicitLeft = 5
-      ExplicitWidth = 554
       object panelSeach: TPanel
         Left = 0
         Top = 0
@@ -201,7 +192,6 @@ object Form1: TForm1
         Color = 15395562
         ParentBackground = False
         TabOrder = 0
-        ExplicitWidth = 550
         object txtSearch: TEdit
           AlignWithMargins = True
           Left = 5
@@ -221,7 +211,6 @@ object Form1: TForm1
           ParentFont = False
           TabOrder = 0
           OnChange = txtSearchChange
-          ExplicitWidth = 540
         end
         object topPanelSearch: TPanel
           AlignWithMargins = True
@@ -236,7 +225,6 @@ object Form1: TForm1
           Align = alTop
           BevelOuter = bvNone
           TabOrder = 1
-          ExplicitWidth = 540
           object Label2: TLabel
             AlignWithMargins = True
             Left = 0
@@ -270,7 +258,6 @@ object Form1: TForm1
             Caption = 'Filtros'
             TabOrder = 0
             OnClick = Button1Click
-            ExplicitLeft = 440
           end
         end
       end
