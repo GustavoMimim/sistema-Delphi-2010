@@ -1,0 +1,60 @@
+unit frmFilters;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls;
+
+type
+  TForm4 = class
+    panelFilters: TPanel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    cbState: TComboBox;
+    txtCodeCityMin: TEdit;
+    txtCodeCityMax: TEdit;
+    txtCodeCustomerMin: TEdit;
+    txtCodeCustomerMax: TEdit;
+    CheckBox1: TCheckBox;
+    Button1: TButton;
+    procedure FormDeactivate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+  private
+    FForm1: TForm;
+  public
+    procedure ShowMainFormVariable;
+    property Form1: TForm write FForm1;
+  end;
+
+implementation
+
+uses
+  frmMain;
+
+{$R *.dfm}
+
+procedure TForm4.Button1Click(Sender: TObject);
+begin
+
+  (FForm1 as TForm1).directsTypeList();
+
+end;
+
+procedure TForm4.FormDeactivate(Sender: TObject);
+begin
+
+  Self.Visible := false;
+
+end;
+
+procedure TForm4.FormShow(Sender: TObject);
+begin
+
+  txtCodeCustomerMin.SetFocus;
+
+end;
+
+end.

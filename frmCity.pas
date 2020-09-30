@@ -18,9 +18,9 @@ type
     txtCode: TEdit;
     cbState: TComboBox;
     txtName: TEdit;
-    Panel2: TPanel;
-    btnSave: TButton;
+    panelFooter: TPanel;
     btnRemove: TButton;
+    btnSave: TButton;
     procedure btnSaveClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     function validates(): boolean;
@@ -35,7 +35,7 @@ type
   end;
 
 var
-  Form2: TForm2;
+  cityForm: TForm2;
   dt: TDm;
 
 implementation
@@ -68,9 +68,9 @@ begin
   if dt.sqlCity.Eof then
   begin
     ShowMessage('Não foi possível encontrar a cidade selecionada, por favor, tente novamente!');
-    Form2.Release;
+    Self.Release;
 
-    exit;
+    Exit;
   end
   else
   begin
@@ -86,7 +86,7 @@ end;
 procedure TForm2.btnRemoveClick(Sender: TObject);
 begin
 
-  if MessageDlg('Deseja mesmo remover a cidade?', mtConfirmation,[mbYes, mbNo], 0) = mrNo then
+  if MessageDlg('Deseja mesmo remover essa cidade?', mtConfirmation,[mbYes, mbNo], 0) = mrNo then
     exit;
 
   try
@@ -134,7 +134,7 @@ begin
     else
       ShowMessage('Cidade alterada com sucesso!');
 
-    Form2.Free;
+    Self.Release;
 
   end;
 end;

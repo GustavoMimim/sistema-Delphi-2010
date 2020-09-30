@@ -3,7 +3,7 @@ object Form3: TForm3
   Top = 0
   BorderStyle = bsDialog
   Caption = 'Cliente'
-  ClientHeight = 359
+  ClientHeight = 366
   ClientWidth = 447
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -21,7 +21,7 @@ object Form3: TForm3
     Left = 0
     Top = 0
     Width = 447
-    Height = 359
+    Height = 314
     Align = alClient
     BevelKind = bkTile
     BevelOuter = bvNone
@@ -68,6 +68,7 @@ object Form3: TForm3
       Top = 27
       Width = 182
       Height = 21
+      NumbersOnly = True
       TabOrder = 0
     end
     object txtName: TEdit
@@ -75,39 +76,16 @@ object Form3: TForm3
       Top = 83
       Width = 182
       Height = 21
+      MaxLength = 150
       TabOrder = 1
-    end
-    object Panel2: TPanel
-      Left = 0
-      Top = 305
-      Width = 443
-      Height = 50
-      Align = alBottom
-      BevelOuter = bvNone
-      TabOrder = 6
-      object btnSave: TButton
-        Left = 8
-        Top = 8
-        Width = 85
-        Height = 25
-        Caption = 'Salvar'
-        TabOrder = 0
-        OnClick = btnSaveClick
-      end
-      object btnRemove: TButton
-        Left = 105
-        Top = 8
-        Width = 85
-        Height = 25
-        Caption = 'Remover'
-        TabOrder = 1
-      end
     end
     object txtCpf: TEdit
       Left = 8
       Top = 140
       Width = 182
       Height = 21
+      MaxLength = 14
+      NumbersOnly = True
       TabOrder = 2
     end
     object txtTel: TEdit
@@ -115,6 +93,8 @@ object Form3: TForm3
       Top = 201
       Width = 182
       Height = 21
+      MaxLength = 50
+      NumbersOnly = True
       TabOrder = 3
     end
     object txtEmail: TEdit
@@ -122,6 +102,7 @@ object Form3: TForm3
       Top = 267
       Width = 182
       Height = 21
+      MaxLength = 100
       TabOrder = 4
     end
     object Panel3: TPanel
@@ -189,6 +170,7 @@ object Form3: TForm3
         Top = 213
         Width = 182
         Height = 21
+        MaxLength = 150
         TabOrder = 4
       end
       object txtComplement: TEdit
@@ -196,6 +178,7 @@ object Form3: TForm3
         Top = 261
         Width = 182
         Height = 21
+        MaxLength = 150
         TabOrder = 5
       end
       object txtPostCode: TEdit
@@ -252,8 +235,48 @@ object Form3: TForm3
         Top = 167
         Width = 182
         Height = 21
+        MaxLength = 150
         TabOrder = 3
       end
+    end
+  end
+  object panelFooter: TPanel
+    AlignWithMargins = True
+    Left = 3
+    Top = 317
+    Width = 441
+    Height = 46
+    Align = alBottom
+    BevelKind = bkFlat
+    BevelOuter = bvNone
+    Color = 13224393
+    ParentBackground = False
+    TabOrder = 1
+    object btnRemove: TButton
+      AlignWithMargins = True
+      Left = 354
+      Top = 5
+      Width = 80
+      Height = 32
+      Margins.Top = 5
+      Margins.Bottom = 5
+      Align = alRight
+      Caption = 'Remover'
+      TabOrder = 0
+      OnClick = btnRemoveClick
+    end
+    object btnSave: TButton
+      AlignWithMargins = True
+      Left = 268
+      Top = 5
+      Width = 80
+      Height = 32
+      Margins.Top = 5
+      Margins.Bottom = 5
+      Align = alRight
+      Caption = 'Salvar'
+      TabOrder = 1
+      OnClick = btnSaveClick
     end
   end
 end

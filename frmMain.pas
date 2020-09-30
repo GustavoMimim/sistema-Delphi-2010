@@ -3,34 +3,41 @@ unit frmMain;
 interface
 
 uses
-  module, frmCity, frmCustomer, Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ComCtrls, ExtCtrls, StdCtrls, pngimage, DB, ADODB, StrUtils,
-  GestureCtrls;
+  frmFilters, module, frmCity, frmCustomer, StdCtrls, ComCtrls, Controls, Classes, ExtCtrls, Windows, Messages, SysUtils, Variants, Graphics, Forms,
+  Dialogs, pngimage, DB, ADODB, StrUtils, Tabs;
 
 type
   TForm1 = class(TForm)
     mainBody: TPanel;
-    headerBottom: TPanel;
-    panelSeach: TPanel;
-    lblSearch: TLabel;
-    txtSearch: TEdit;
+    panelFooter: TPanel;
     lvRecords: TListView;
     panelButtons: TPanel;
     btnUpdate: TButton;
     btnAdd: TButton;
     Label1: TLabel;
     btnRefresh: TButton;
-    Panel1: TPanel;
+    panelSideMenu: TPanel;
     sideMenu: TTreeView;
+    panelHeader: TPanel;
+    panelSeach: TPanel;
+    txtSearch: TEdit;
+    topPanelSearch: TPanel;
+    Label2: TLabel;
+    Button1: TButton;
+    btnReport: TButton;
     procedure FormCreate(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
     procedure btnUpdateClick(Sender: TObject);
     procedure sideMenuClick(Sender: TObject);
-    procedure ListCities();
-    procedure ListCustomers();
     procedure txtSearchChange(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure FormResize(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure ListCities();
+    procedure ListCustomers();
+    function verifyFiltersSQL(): String;
+    procedure btnReportClick(Sender: TObject);
+
   private
     { Private declarations }
   public
@@ -39,9 +46,11 @@ type
   end;
 
 var
-  Form1: TForm1;
-  Form2: TForm2;
-  Form3: TForm3;
+  mainForm: TForm1;
+  cityForm: TForm2;
+  customerForm: TForm3;
+  filterForm: TForm4;
+
   dt: TDm;
   typeSelected: String;
 
@@ -53,21 +62,21 @@ procedure TForm1.btnAddClick(Sender: TObject);
 begin
   if typeSelected = 'Cidades' then
   begin
-    Form2 := TForm2.Create(nil);
-    Form2.newRecord := true;
-    Form2.txtCode.Enabled := true;
-    Form2.btnRemove.Enabled := false;
-    Form2.Show;
-    Form2.loadCity('0');
+    cityForm := TForm2.Create(nil);
+    cityForm.newRecord := true;
+    cityForm.txtCode.Enabled := true;
+    cityForm.btnRemove.Enabled := false;
+    cityForm.Show;
+    cityForm.loadCity('0');
   end
   else
   begin
-    Form3 := TForm3.Create(nil);
-    Form3.newRecord := true;
-    Form3.txtCode.Enabled := true;
-    Form3.btnRemove.Enabled := false;
-    Form3.Show;
-    Form3.loadCustomer('0');
+    customerForm := TForm3.Create(nil);
+    customerForm.newRecord := true;
+    customerForm.txtCode.Enabled := true;
+    customerForm.btnRemove.Enabled := false;
+    customerForm.Show;
+    customerForm.loadCustomer('0');
   end;
 
 end;
@@ -84,16 +93,36 @@ begin
   if typeSelected = 'Cidades' then
   begin
 
-    Application.CreateForm(TForm2, Form2);
-    Form2.loadCity(lvRecords.Selected.Caption);
-    Form2.Show;
+    Application.CreateForm(TForm2, cityForm);
+    cityForm.loadCity(lvRecords.Selected.Caption);
+    cityForm.Show;
   end
   else
   begin
-    Application.CreateForm(TForm3, Form3);
-    Form3.loadCustomer(lvRecords.Selected.Caption);
-    Form3.Show;
+    Application.CreateForm(TForm3, customerForm);
+    customerForm.loadCustomer(lvRecords.Selected.Caption);
+    customerForm.Show;
   end;
+end;
+
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+
+  //Posiciona o form de filtros ao lado do form principal, ou, se não houver  espaço, dentro do form principal
+
+  if (Self.Left + Self.Width) >= Screen.Width then
+  begin
+    filterForm.Left := Screen.Width - filterForm.Width;
+    filterForm.Top := Self.Top + panelHeader.Top + panelHeader.Height;
+  end
+  else
+  begin
+    filterForm.Left := Self.Left + Self.Width;
+    filterForm.Top := Self.Top;
+  end;
+
+  filterForm.Visible := true;
+
 end;
 
 procedure TForm1.btnRefreshClick(Sender: TObject);
@@ -102,6 +131,47 @@ begin
   directsTypeList(); 
 
 end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+
+  filterForm := TForm4.Create(Self);
+  dt := TDm.Create(Self);
+
+  typeSelected := 'Cidades';
+
+  directsTypeList();
+
+end;
+
+procedure TForm1.FormResize(Sender: TObject);
+begin
+
+  //Ajusta a propriedade width das colunas conforme o tamanho do form
+  lvRecords.Columns[0].Width := Round((10/100) * lvRecords.Width);
+  lvRecords.Columns[1].Width := Round((30/100) * lvRecords.Width);
+  lvRecords.Columns[2].Width := Round((20/100) * lvRecords.Width);
+  lvRecords.Columns[3].Width := Round((35/100) * lvRecords.Width);
+  lvRecords.Refresh;
+
+end;
+
+procedure TForm1.sideMenuClick(Sender: TObject);
+begin
+
+  typeSelected := sideMenu.Selected.Text;
+
+  directsTypeList();
+
+end;
+
+procedure TForm1.txtSearchChange(Sender: TObject);
+begin
+
+  directsTypeList();
+
+end;
+
 
 procedure TForm1.directsTypeList();
 begin
@@ -132,8 +202,8 @@ begin
 
   searchFor := QuotedStr('%' + txtSearch.Text + '%');
 
-  dt.sqlCity.SQL.Add('SELECT codigo_cliente, clientes.nome, telefone, cidades.nome AS cidade from clientes LEFT JOIN cidades ON cidades.codigo_cidade = clientes.codigo_cidade ' +
-  'WHERE clientes.nome LIKE ' + searchFor + ' OR codigo_cliente LIKE ' + searchFor + ' OR cep LIKE ' + searchFor);
+  dt.sqlCity.SQL.Add('SELECT codigo_cliente, clientes.nome, telefone, cidades.nome AS cidade from clientes LEFT JOIN cidades ON cidades.codigo_cidade = clientes.codigo_cidade '
+  + verifyFiltersSQL());
 
   dt.sqlCity.Open;
 
@@ -156,10 +226,72 @@ begin
 
 end;
 
+function TForm1.verifyFiltersSQL(): String;
+var
+  searchFor, strWhere: string;
+  I, CodeMin, CodeMax, Code: Integer;
+
+begin
+  strWhere := 'WHERE ';
+
+// Filtros da pesquisa
+  if Length(txtSearch.Text) > 0 then
+  begin
+    searchFor := QuotedStr('%' + txtSearch.Text + '%');
+    strWhere := strWhere + ' cidades.nome LIKE ' + searchFor + ' OR cidades.codigo_cidade LIKE ' + searchFor + ' OR ' + QuotedStr(txtSearch.Text) + ' BETWEEN cep_inicial AND cep_final ';
+
+    if typeSelected = 'Clientes' then
+      strWhere := strWhere + ' OR clientes.nome LIKE ' + searchFor + ' OR codigo_cliente LIKE ' + searchFor;
+
+    strWhere := strWhere +   ' AND '
+  end;
+
+  Val(filterForm.txtCodeCityMin.Text, I, CodeMin);
+  Val(filterForm.txtCodeCityMax.Text, I, CodeMax);
+  // Define o limite de pesquisa do código da cidade
+  if (CodeMin = 0) and (CodeMax = 0) then
+     strWhere := strWhere + 'cidades.codigo_cidade BETWEEN ' + filterForm.txtCodeCityMin.Text + ' AND ' + filterForm.txtCodeCityMax.Text + ' AND '
+  else if CodeMin = 0 then
+    strWhere := strWhere + 'cidades.codigo_cidade >= ' + filterForm.txtCodeCityMin.Text + ' AND '
+  else if CodeMax = 0 then
+    strWhere := strWhere + 'cidades.codigo_cidade <= ' + filterForm.txtCodeCityMax.Text + ' AND ';
+
+  // Filtro por estado
+  if filterForm.cbState.ItemIndex > 0 then
+    strWhere := strWhere + 'estado = ' + QuotedStr(filterForm.cbState.Text) + ' AND ';
+
+  if typeSelected = 'Clientes' then
+  begin
+
+    Val(filterForm.txtCodeCustomerMin.Text, I, CodeMin);
+    Val(filterForm.txtCodeCustomerMax.Text, I, CodeMax);
+    // Define o limite de pesquisa do código do cliente
+    if (CodeMin = 0) and (CodeMax = 0) then
+       strWhere := strWhere + ' codigo_cliente BETWEEN ' + filterForm.txtCodeCustomerMin.Text + ' AND ' + filterForm.txtCodeCustomerMax.Text
+    else if CodeMin = 0 then
+      strWhere := strWhere + ' codigo_cliente >= ' + filterForm.txtCodeCustomerMin.Text
+    else if CodeMax = 0 then
+      strWhere := strWhere + ' codigo_cliente <= ' + filterForm.txtCodeCustomerMax.Text;
+
+  end;
+
+  // Remove a última instrução SQL caso necessário
+  if RightStr(strWhere, 6) = 'WHERE ' then
+    strWhere := ''
+  else if RightStr(strWhere, 5) = ' AND ' then
+    strWhere := LeftStr(strWhere, Length(strWhere) - 5);
+
+  // Agrupar por cidade
+  if filterForm.chkGroupByCity.Checked = true then
+    strWhere := strWhere + ' ORDER BY cidades.nome';
+
+  verifyFiltersSQL := strWhere;
+
+end;
+
 procedure TForm1.ListCities();
 var
   item: TListItem;
-  searchFor: string;
 
 begin
 
@@ -170,9 +302,7 @@ begin
 
   dt.sqlCity.SQL.Clear;
 
-  searchFor := QuotedStr('%' + txtSearch.Text + '%');
-
-  dt.sqlCity.SQL.Add('SELECT * from cidades WHERE nome LIKE ' + searchFor + ' OR codigo_cidade LIKE ' + searchFor + ' OR ' + QuotedStr(txtSearch.Text) + ' BETWEEN cep_inicial AND cep_final');
+  dt.sqlCity.SQL.Add('SELECT * from cidades ' + verifyFiltersSQL());
 
   dt.sqlCity.Open;
 
@@ -192,49 +322,6 @@ begin
     dt.sqlCity.Next;
 
   end;
-
-end;
-
-procedure TForm1.FormCreate(Sender: TObject);
-begin
-
-  dt := TDm.Create(Self);
-
-  typeSelected := 'Cidades';
-
-  directsTypeList();
-
-end;
-
-procedure TForm1.FormResize(Sender: TObject);
-begin
-
-  //Ajusta a propriedade width das colunas conforme o tamanho do form
-  lvRecords.Columns[0].Width := Round((10/100) * lvRecords.Width);
-  lvRecords.Columns[1].Width := Round((30/100) * lvRecords.Width);
-  lvRecords.Columns[2].Width := Round((20/100) * lvRecords.Width);
-  lvRecords.Columns[3].Width := Round((35/100) * lvRecords.Width);
-  lvRecords.Refresh;
-
-end;
-
-procedure TForm1.sideMenuClick(Sender: TObject);
-begin
-  if sideMenu.Selected.Text = 'Relatórios' then
-  begin    
-    ShowMessage('Desculpe, essa parte do sistema ainda não foi implantada!');
-    sideMenu.Items[0].Selected := true;     
-  end;
-  
-  typeSelected := sideMenu.Selected.Text;
-  directsTypeList();
-
-end;
-
-procedure TForm1.txtSearchChange(Sender: TObject);
-begin
-
-  directsTypeList();
 
 end;
 

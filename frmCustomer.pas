@@ -13,9 +13,6 @@ type
     Label1: TLabel;
     txtCode: TEdit;
     txtName: TEdit;
-    Panel2: TPanel;
-    btnSave: TButton;
-    btnRemove: TButton;
     txtCpf: TEdit;
     Label5: TLabel;
     txtTel: TEdit;
@@ -35,11 +32,15 @@ type
     Label4: TLabel;
     txtDistrict: TEdit;
     Label11: TLabel;
+    panelFooter: TPanel;
+    btnRemove: TButton;
+    btnSave: TButton;
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
     function validates(): boolean;
     procedure txtPostCodeChange(Sender: TObject);
+    procedure btnRemoveClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -102,6 +103,28 @@ begin
 
 end;
 
+procedure TForm3.btnRemoveClick(Sender: TObject);
+begin
+
+  if MessageDlg('Deseja mesmo remover esse cliente?', mtConfirmation,[mbYes, mbNo], 0) = mrNo then
+    exit;
+
+  try
+
+  dt.sqlCity.Close;
+  dt.sqlCity.SQL.Clear;
+  dt.sqlCity.SQL.Add('DELETE FROM clientes WHERE codigo_cliente = ' + txtCode.Text );
+  dt.sqlCity.ExecSQL();
+
+  finally
+
+    ShowMessage('Cliente removido com sucesso!');
+    Self.Hide;
+
+  end;
+
+end;
+
 procedure TForm3.btnSaveClick(Sender: TObject);
 begin
 
@@ -129,11 +152,12 @@ begin
   finally
 
     if newRecord then
-      ShowMessage('Cliente cadastrado com sucesso!')
+    begin
+      ShowMessage('Cliente cadastrado com sucesso!');
+      btnRemove.Enabled := true;
+    end
     else
       ShowMessage('Cliente alterado com sucesso!');
-
-    Form3.Free;
 
   end;
 end;
@@ -164,7 +188,6 @@ begin
   if dt.sqlCity.Eof then
   begin
     ShowMessage('Não foi possível encontrar o cliente selecionado, por favor, tente novamente!');
-    Form3.Release;
     exit;
   end
   else
@@ -205,11 +228,11 @@ begin
 end;
 
 procedure TForm3.txtPostCodeChange(Sender: TObject);
+
 begin
 
   if isLoading then
     exit;
-
   if Length(txtPostCode.Text) = 8 then
   begin
 
@@ -217,7 +240,7 @@ begin
 
       dt.sqlCity.Close;
       dt.sqlCity.SQL.Clear;
-      dt.sqlCity.SQL.Add('SELECT codigo_cidade, nome, estado FROM cidades WHERE ' + txtPostCode.Text + ' BETWEEN cep_inicial AND cep_final');
+      dt.sqlCity.SQL.Add('SELECT codigo_cidade, nome, estado FROM cidades WHERE ' + QuotedStr(txtPostCode.Text) + ' BETWEEN cep_inicial AND cep_final');
       dt.sqlCity.Open;
 
     finally

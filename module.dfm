@@ -11,10 +11,12 @@ object Dm: TDm
     Top = 16
   end
   object ADOConnection1: TADOConnection
+    Connected = True
     ConnectionString = 
       'Provider=SQLNCLI11.1;Integrated Security=SSPI;Persist Security I' +
       'nfo=False;User ID="";Initial Catalog="";Data Source=localhost;In' +
       'itial File Name="";Server SPN=""'
+    LoginPrompt = False
     Provider = 'SQLNCLI11.1'
     Left = 40
     Top = 16

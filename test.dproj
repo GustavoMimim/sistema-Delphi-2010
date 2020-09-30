@@ -20,6 +20,7 @@
 			<Base>true</Base>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
+			<DCC_UsePackage>vclx;vcl;vclimg;dbrtl;Rave77VCL;bdertl;rtl;vclactnband;vcldb;vcldbx;vcltouch;xmlrtl;dsnap;dsnapcon;TeeUI;TeeDB;Tee;vclib;ibxpress;adortl;IndyCore;IndySystem;IndyProtocols;inet;intrawebdb_100_140;Intraweb_100_140;VclSmp;vclie;websnap;webdsnap;inetdb;inetdbbde;inetdbxpress;soaprtl;vclribbon;dbexpress;DbxCommonDriver;DataSnapIndy10ServerTransport;DataSnapProviderClient;DbxClientDriver;DataSnapServer;DBXInterBaseDriver;DBXMySQLDriver;dbxcds;DBXFirebirdDriver;DBXSybaseASEDriver;DBXSybaseASADriver;DBXOracleDriver;DBXMSSQLDriver;DBXInformixDriver;DBXDb2Driver;dclRBE1514;rbCIDE1514;rbIDE1514;rbRCL1514;rbBDE1514;rbUSERDesign1514;rbUSER1514;rbDIDE1514;rbDAD1514;dclRBBDE1514;rbDBDE1514;rbDB1514;dclRBADO1514;rbADO1514;rbRIDE1514;rbRAP1514;rbWebTier1514;rbClient1514;rbServer1514;rbServiceCore1514;rbTCUI1514;rbTC1514;dclRBIBE1514;rbIBE1514;dclRBDBE1514;rbDBE1514;frx14;fs14;frxIntIO14;frxIntIOIndy14;frxcs14;frxe14;frxTee14;fsTee14;frxDB14;fsDB14;frxADO14;fsADO14;frxDBX14;frxIBX14;fsIBX14</DCC_UsePackage>
 			<DCC_DependencyCheckOutputName>test.exe</DCC_DependencyCheckOutputName>
 			<DCC_ImageBase>00400000</DCC_ImageBase>
 			<DCC_UnitAlias>WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;$(DCC_UnitAlias)</DCC_UnitAlias>
@@ -56,6 +57,9 @@
 			<DCCReference Include="frmCustomer.pas">
 				<Form>Form3</Form>
 			</DCCReference>
+			<DCCReference Include="frmFilters.pas">
+				<Form>Form4</Form>
+			</DCCReference>
 			<None Include="ModelSupport_test\default.txaPackage"/>
 			<None Include="ModelSupport_test\default.txvpck"/>
 			<None Include="ModelSupport_test\testeNewcon\default.txvpck"/>
@@ -69,6 +73,13 @@
 			<None Include="ModelSupport_test\test\default.txvpck"/>
 			<None Include="ModelSupport_test\test\default.txaPackage"/>
 			<None Include="ModelSupport_test\frmCustomer\default.txaPackage"/>
+			<None Include="ModelSupport_test\About\default.txvpck"/>
+			<None Include="ModelSupport_test\About\default.txaPackage"/>
+			<None Include="ModelSupport_test\frmFilters\default.txaPackage"/>
+			<None Include="ModelSupport_test\frmAbout\default.txaPackage"/>
+			<None Include="ModelSupport_test\frmAbout\default.txvpck"/>
+			<None Include="ModelSupport_test\frmFilters\default.txvpck"/>
+			<None Include="report.htm"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
@@ -122,6 +133,10 @@
 					<Source>
 						<Source Name="MainSource">test.dpr</Source>
 					</Source>
+					<Excluded_Packages>
+						<Excluded_Packages Name="$(BDS)\bin\dcloffice2k140.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+						<Excluded_Packages Name="$(BDS)\bin\dclofficexp140.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+					</Excluded_Packages>
 				</Delphi.Personality>
 				<ModelSupport>True</ModelSupport>
 			</BorlandProject>

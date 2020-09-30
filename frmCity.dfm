@@ -3,8 +3,8 @@ object Form2: TForm2
   Top = 0
   BorderStyle = bsDialog
   Caption = 'Cidade'
-  ClientHeight = 327
-  ClientWidth = 210
+  ClientHeight = 317
+  ClientWidth = 202
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,8 +21,8 @@ object Form2: TForm2
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 210
-    Height = 327
+    Width = 202
+    Height = 317
     Align = alClient
     BevelKind = bkTile
     BevelOuter = bvNone
@@ -80,6 +80,7 @@ object Form2: TForm2
       Top = 27
       Width = 182
       Height = 21
+      NumbersOnly = True
       TabOrder = 0
     end
     object cbState: TComboBox
@@ -125,33 +126,52 @@ object Form2: TForm2
       Top = 83
       Width = 182
       Height = 21
+      MaxLength = 100
       TabOrder = 1
     end
-    object Panel2: TPanel
-      Left = 0
-      Top = 262
-      Width = 206
-      Height = 61
+    object panelFooter: TPanel
+      AlignWithMargins = True
+      Left = 3
+      Top = 264
+      Width = 192
+      Height = 46
       Align = alBottom
+      BevelKind = bkFlat
       BevelOuter = bvNone
+      Color = 13224393
+      ParentBackground = False
       TabOrder = 5
-      object btnSave: TButton
-        Left = 8
-        Top = 16
-        Width = 85
-        Height = 25
-        Caption = 'Salvar'
-        TabOrder = 0
-        OnClick = btnSaveClick
-      end
       object btnRemove: TButton
-        Left = 105
-        Top = 16
-        Width = 85
-        Height = 25
+        AlignWithMargins = True
+        Left = 108
+        Top = 5
+        Width = 80
+        Height = 32
+        Margins.Left = 0
+        Margins.Top = 5
+        Margins.Right = 0
+        Margins.Bottom = 5
+        Align = alRight
         Caption = 'Remover'
-        TabOrder = 1
+        TabOrder = 0
         OnClick = btnRemoveClick
+        ExplicitLeft = 28
+      end
+      object btnSave: TButton
+        AlignWithMargins = True
+        Left = 28
+        Top = 5
+        Width = 80
+        Height = 32
+        Margins.Left = 0
+        Margins.Top = 5
+        Margins.Right = 0
+        Margins.Bottom = 5
+        Align = alRight
+        Caption = 'Salvar'
+        TabOrder = 1
+        OnClick = btnSaveClick
+        ExplicitLeft = 108
       end
     end
   end
