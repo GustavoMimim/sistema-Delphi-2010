@@ -191,7 +191,7 @@ begin
     '<tr> ' +
     '    <td>' + lvRecords.Items[i].Caption + '</td>' +
     '    <td>' + lvRecords.Items[i].SubItems[0] + '</td>' +
-    '    <td>' + lvRecords.Items[i].SubItems[1] + '</td>' +
+    '    <td>' + lvRecords.Items[i].SubItems[2] + '</td>' +
     '</tr>';
 
   end;
@@ -199,23 +199,26 @@ begin
    AssignFile(fileReportBase, 'report.html');
    AssignFile(fileReport, 'reportCreated.html');
 
-   Reset(fileReportBase); //abre o arquivo para leitura;
-   Rewrite(fileReport);   //abre o arquivo para leitura;
+   Reset(fileReportBase);
+   Rewrite(fileReport);
 
    While not eof(fileReportBase) do begin
      Readln(fileReportBase, line);
 
+     if Pos('#titulo', line) > 0 then
+       line := 'Relatório de ' + typeSelected;
+
      if Pos('#filtros', line) > 0 then
-      line := filters;
+       line := filters;
 
      if Pos('#dataGerado', line) > 0 then
-      line :=  DateToStr(Date());
+       line :=  DateToStr(Date());
 
      if Pos('#totalRegistros', line) > 0 then
-      line := IntToStr(lvRecords.Items.Count);
+       line := IntToStr(lvRecords.Items.Count);
 
      if Pos('#registros', line) > 0 then
-      line := records;
+       line := records;
 
      Writeln(fileReport, line);
    End;

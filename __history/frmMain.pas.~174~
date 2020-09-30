@@ -4,7 +4,7 @@ interface
 
 uses
   frmFilters, module, frmCity, frmCustomer, StdCtrls, ComCtrls, Controls, Classes, ExtCtrls, Windows, Messages, SysUtils, Variants, Graphics, Forms,
-  Dialogs, pngimage, DB, ADODB, StrUtils, Tabs;
+  Dialogs, pngimage, DB, ADODB, StrUtils, Tabs, ShellAPI;
 
 type
   TForm1 = class(TForm)
@@ -135,9 +135,11 @@ end;
 
 procedure TForm1.btnReportClick(Sender: TObject);
 var
-  filters: String;
-  records: String;
-  I: Integer;
+  title, filters, records: String;
+  I, n: Integer;
+
+  htmlStr, line: string;
+  fileReportBase, fileReport: TextFile;
 
 begin
 
@@ -147,28 +149,45 @@ begin
     exit;
   end;
 
+  if typeSelected = 'Clientes' then
+    title := 'Relatório de Cidades'
+  else
+    title := 'Relatório de Clientes';
+
   if Length(txtSearch.Text) > 0 then
-    filters := +
+    filters := filters +
     '<tr> ' +
     '    <td>Pesquisa por: <b>' + txtSearch.Text + '</b></td>' +
     '</tr>';
 
   if filterForm.cbState.ItemIndex > 0 then
-    filters := +
+    filters := filters +
     '<tr> ' +
     '    <td>Estado: <b>' + filterForm.cbState.Text + '</b></td>' +
     '</tr>';
 
-  if (Length(filterForm.txtCodeCityMin.Text) > 0) or (Length(filterForm.txtCodeCityMax.Text) > 0) then
+  if (Length(filterForm.txtCodeCityMin.Text) > 0) then
     filters := filters +
     '<tr> ' +
-    '    <td>Código de cidade entre ' + filterForm.txtCodeCityMin.Text + ' até ' + filterForm.txtCodeCityMax.Text + '</td>' +
+    '    <td>Código de cidade no mínimo ' + filterForm.txtCodeCityMin.Text + '</td>' +
     '</tr>';
 
-  if (Length(filterForm.txtCodeCustomerMin.Text) > 0) and (Length(filterForm.txtCodeCustomerMax.Text) > 0) then
+  if (Length(filterForm.txtCodeCityMax.Text) > 0) then
     filters := filters +
     '<tr> ' +
-    '    <td>Código de cliente entre ' + filterForm.txtCodeCustomerMin.Text + ' até ' + filterForm.txtCodeCustomerMax.Text + '</td>' +
+    '    <td>Código de cidade até ' + filterForm.txtCodeCityMax.Text + '</td>' +
+    '</tr>';
+
+  if (Length(filterForm.txtCodeCustomerMin.Text) > 0) then
+    filters := filters +
+    '<tr> ' +
+    '    <td>Código de cliente no mínimo ' + filterForm.txtCodeCustomerMin.Text + '</td>' +
+    '</tr>';
+
+  if (Length(filterForm.txtCodeCustomerMax.Text) > 0) then
+    filters := filters +
+    '<tr> ' +
+    '    <td>Código de cliente até ' + filterForm.txtCodeCustomerMax.Text + '</td>' +
     '</tr>';
 
   for I := 0 to lvRecords.Items.Count - 1 do begin
@@ -177,12 +196,42 @@ begin
     '<tr> ' +
     '    <td>' + lvRecords.Items[i].Caption + '</td>' +
     '    <td>' + lvRecords.Items[i].SubItems[0] + '</td>' +
-    '    <td>' + lvRecords.Items[i].SubItems[1] + '</td>' +
     '    <td>' + lvRecords.Items[i].SubItems[2] + '</td>' +
     '</tr>';
 
   end;
 
+   AssignFile(fileReportBase, 'report.html');
+   AssignFile(fileReport, 'reportCreated.html');
+
+   Reset(fileReportBase); //abre o arquivo para leitura;
+   Rewrite(fileReport);   //abre o arquivo para leitura;
+
+   While not eof(fileReportBase) do begin
+     Readln(fileReportBase, line);
+
+     if Pos('#titulo', line) > 0 then
+       line := filters;
+
+     if Pos('#filtros', line) > 0 then
+       line := filters;
+
+     if Pos('#dataGerado', line) > 0 then
+       line :=  DateToStr(Date());
+
+     if Pos('#totalRegistros', line) > 0 then
+       line := IntToStr(lvRecords.Items.Count);
+
+     if Pos('#registros', line) > 0 then
+       line := records;
+
+     Writeln(fileReport, line);
+   End;
+
+   Closefile(fileReportBase);
+   Closefile(fileReport);
+
+   ShellExecute(Handle, 'open', 'reportCreated.html', '', '', SW_SHOWNORMAL);
 
 end;
 
